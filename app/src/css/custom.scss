@@ -1,0 +1,27 @@
+$primary: #3b5998;
+$secondary: #8b9dc3;
+$light: #e7ebf7;
+
+@import "~bootstrap/scss/bootstrap";
+
+.focus-none:focus,
+.focus-none:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #cccccc;
+}
+
+.text-placeholder {
+  color: #a7acae;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+body,
+html,
+#root,
+#body {
+  height: 100%;
+}
