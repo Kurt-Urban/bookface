@@ -13,10 +13,15 @@ import {
   FormLabel,
 } from "react-bootstrap";
 
-import { createUser } from "../../../reduxStore/auth";
+import { createUser, login } from "../../../reduxStore/auth";
 
-const SignIn = ({ createUser }) => {
+const SignIn = ({ createUser, login }) => {
   const [validated, setValidated] = useState(false);
+  const [passwordVal, setPasswordVal] = useState(null);
+  const [signInValues, setSignInValues] = useState({
+    username: "",
+    password: "",
+  });
   const [signUpValues, setSignUpValues] = useState({
     firstName: "",
     lastName: "",
@@ -29,24 +34,54 @@ const SignIn = ({ createUser }) => {
     soulGiven: null,
   });
 
-  useEffect(() => {}, []);
+  const handleSignInChange = (e, id) => {
+    const value = e.target.value;
+    setSignInValues((prevState) => ({ ...prevState, [id]: value }));
+  };
 
-  const handleChange = (e, id) => {
+  const handleSignUpChange = (e, id) => {
     const value = e.target.value;
     setSignUpValues((prevState) => ({ ...prevState, [id]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSignUpSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    } else if (form.checkValidity() === true) {
+    } else if (form.checkValidity() && passwordVal) {
       event.preventDefault();
       createUser(signUpValues);
     }
     setValidated(true);
     event.preventDefault();
+  };
+
+  const handleSignInSubmit = (event) => {
+    event.preventDefault();
+    login(signInValues);
+  };
+
+  useEffect(() => {
+    if (signUpValues.password !== "" && signUpValues.confirmedPassword !== "") {
+      if (signUpValues.password !== signUpValues.confirmedPassword) {
+        setPasswordVal(false);
+      } else if (signUpValues.password === signUpValues.confirmedPassword) {
+        setPasswordVal(true);
+        return;
+      }
+      return <Form.Label className="h6 mb-0 small text-danger"></Form.Label>;
+    }
+  }, [signUpValues.password, signUpValues.confirmedPassword]);
+
+  const passwordMatch = () => {
+    if (passwordVal === false) {
+      return (
+        <Form.Label className="h6 mb-0 small text-danger">
+          Passwords do not match.
+        </Form.Label>
+      );
+    } else if (passwordVal === true) return;
   };
 
   const displaySignIn = () => {
@@ -59,12 +94,15 @@ const SignIn = ({ createUser }) => {
           <Navbar.Brand className="text-white mr-auto h1">
             Bookface
           </Navbar.Brand>
-          <Form inline className="mt-0" onSubmit={handleSubmit}>
+          <Form inline className="mt-0" onSubmit={handleSignInSubmit}>
             <Nav className="d-flex flex-column" id="emailContainer">
               <FormLabel className="text-white justify-content-start">
                 Email
               </FormLabel>
-              <FormControl className="mr-3" />
+              <FormControl
+                className="mr-3"
+                onChange={(e) => handleSignInChange(e, "username")}
+              />
               <Nav className="justify-content-start">
                 {/* <FormControl id="cb" type="checkbox" className="mr-1" /> */}
                 <FormLabel className="text-secondary h6 small">
@@ -76,12 +114,16 @@ const SignIn = ({ createUser }) => {
               <FormLabel className="text-white justify-content-start">
                 Password
               </FormLabel>
-              <FormControl className="mr-3" />
+              <FormControl
+                type="password"
+                className="mr-3"
+                onChange={(e) => handleSignInChange(e, "password")}
+              />
               <FormLabel className="h6 small text-secondary justify-content-start">
                 Forgot your password? Too Bad.
               </FormLabel>
             </Nav>
-            <Button id="SignIn" className="border border-white">
+            <Button id="SignIn" className="border border-white" type="submit">
               Sign In
             </Button>
           </Form>
@@ -91,7 +133,7 @@ const SignIn = ({ createUser }) => {
           <Form
             noValidate
             validated={validated}
-            onSubmit={handleSubmit}
+            onSubmit={handleSignUpSubmit}
             className=""
           >
             <Form.Group>
@@ -110,7 +152,7 @@ const SignIn = ({ createUser }) => {
                   required
                   type="text"
                   placeholder="Author's First Name"
-                  onChange={(e) => handleChange(e, "firstName")}
+                  onChange={(e) => handleSignUpChange(e, "firstName")}
                 />
               </Form.Group>
 
@@ -119,7 +161,7 @@ const SignIn = ({ createUser }) => {
                   required
                   type="text"
                   placeholder="Author's Last Name"
-                  onChange={(e) => handleChange(e, "lastName")}
+                  onChange={(e) => handleSignUpChange(e, "lastName")}
                 />
               </Form.Group>
             </Form.Row>
@@ -129,27 +171,32 @@ const SignIn = ({ createUser }) => {
                 required
                 type="email"
                 placeholder="Enter Email"
-                onChange={(e) => handleChange(e, "email")}
+                onChange={(e) => handleSignUpChange(e, "email")}
               />
             </Form.Group>
 
-            <Form.Row>
+            <Form.Row className="mb-0">
               <Form.Group as={Col} controlId="formGridPassword">
                 <Form.Control
                   required
                   type="password"
                   placeholder="Enter Password"
-                  onChange={(e) => handleChange(e, "password")}
+                  onChange={(e) => handleSignUpChange(e, "password")}
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridConfirmedPassword">
+              <Form.Group
+                as={Col}
+                controlId="formGridConfirmedPassword"
+                className="mb-0 "
+              >
                 <Form.Control
                   required
                   type="password"
                   placeholder="Confirm Password"
-                  onChange={(e) => handleChange(e, "confirmedPassword")}
+                  onChange={(e) => handleSignUpChange(e, "confirmedPassword")}
                 />
+                {passwordMatch()}
               </Form.Group>
             </Form.Row>
 
@@ -159,7 +206,7 @@ const SignIn = ({ createUser }) => {
                 required
                 type="text"
                 placeholder="Enter Title"
-                onChange={(e) => handleChange(e, "title")}
+                onChange={(e) => handleSignUpChange(e, "title")}
               />
             </Form.Group>
 
@@ -172,7 +219,7 @@ const SignIn = ({ createUser }) => {
                   min={0}
                   max={2025}
                   placeholder="Year"
-                  onChange={(e) => handleChange(e, "releaseYear")}
+                  onChange={(e) => handleSignUpChange(e, "releaseYear")}
                 />
               </Form.Group>
               <Form.Group as={Col} controlId="formGridGenre">
@@ -181,7 +228,7 @@ const SignIn = ({ createUser }) => {
                   required
                   type="text"
                   placeholder="Genre"
-                  onChange={(e) => handleChange(e, "genre")}
+                  onChange={(e) => handleSignUpChange(e, "genre")}
                 />
               </Form.Group>
             </Form.Row>
@@ -212,5 +259,5 @@ export default connect(
   (state) => {
     return {};
   },
-  { createUser }
+  { createUser, login }
 )(SignIn);

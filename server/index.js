@@ -5,11 +5,14 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 3001;
 const mongoose = require("mongoose");
-const User = require("./User");
+const User = require("./models/User");
+const userRouter = require("./routes/User");
 const multer = require("multer");
+const cookieParser = require("cookie-parser");
 
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 mongoose
   .connect(
@@ -18,38 +21,19 @@ mongoose
   )
   .catch((err) => console.log(err));
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now());
-  },
-});
-
-// const upload = multer({ storage });
-
-const userInput = {
-  email: "kurban@gmail.com",
-  password: "CodingIsHard123",
-  role: "admin",
-};
-
-// user.save((err, doc) => {
-//   if (err) console.log(err);
-//   console.log(doc);
-// });
-
-app.post("/auth/register", (req, res) => {
-  const user = new User(req.body);
-  user.save((err, doc) => {
-    if (err) console.log(err);
-    console.log(doc);
-    res.send(doc);
-  });
-  console.log();
-});
+app.use("/user", userRouter);
 
 app.listen(port, () => {
   console.log("Connected");
 });
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.fieldname + "-" + Date.now());
+//   },
+// });
+
+// const upload = multer({ storage });

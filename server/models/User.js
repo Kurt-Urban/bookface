@@ -6,9 +6,7 @@ const UserSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
-  role: {
-    enum: ["user", "admin"],
-  },
+  role: String,
   releaseYear: Number,
   genre: String,
   title: String,
@@ -31,12 +29,11 @@ UserSchema.pre("save", function (next) {
 
 UserSchema.methods.comparePassword = function (password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    } else if (!isMatch) {
-      return cb(null, isMatch);
+    if (err) return cb(err);
+    else {
+      if (!isMatch) return cb(null, isMatch);
+      return cb(null, this);
     }
-    return cb(null, this);
   });
 };
 module.exports = mongoose.model("User", UserSchema);
