@@ -5,10 +5,12 @@ import history from "../../history";
 
 const base = "AUTH_";
 
-const INITAL_STATE = {};
+const INITAL_STATE = { isAuthenticated: false, user: { email: "", role: "" } };
 
 export const createdUser = createAction(`${base}_CREATED_USER`);
 export const loggedIn = createAction(`${base}_LOGGEDIN`);
+export const loggedOut = createAction(`${base}_LOGGEDOUT`);
+export const isAuthenticated = createAction(`${base}_ISAUTHENTICATED`);
 
 export const createUser = (formValues) => async (dispatch) => {
   await axios.post("/user/register", {
@@ -25,17 +27,29 @@ export const createUser = (formValues) => async (dispatch) => {
 };
 
 export const login = (formValues) => async (dispatch) => {
-  await axios.post("/user/login", {
+  const response = await axios.post("/user/login", {
     username: formValues.username,
     password: formValues.password,
   });
-  console.log(formValues);
-  dispatch(loggedIn());
+  dispatch(loggedIn(response.data));
+};
+
+export const logout = () => async (dispatch) => {
+  const response = await axios.get("/user/logout", { credentials: "include" });
+  dispatch(loggedIn(response.data));
+};
+
+export const authenticate = () => async (dispatch) => {
+  const response = await axios.get("/user/authenticated");
+  console.log(response.data);
+  dispatch(isAuthenticated());
 };
 
 export default handleActions(
   {
     [createdUser]: () => ({ ...INITAL_STATE }),
+    [loggedIn]: (state, { payload }) => ({ ...INITAL_STATE, ...payload }),
+    [loggedOut]: (state, { payload }) => ({ ...state, ...payload }),
   },
   INITAL_STATE
 );

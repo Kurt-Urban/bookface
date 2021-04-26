@@ -20,7 +20,7 @@ passport.use(
     (payload, done) => {
       User.findById({ _id: payload.sub }, (err, user) => {
         if (err) done(err, false);
-        if (!user) done(null, user);
+        if (user) done(null, user);
         else done(null, false);
       });
     }
@@ -36,3 +36,14 @@ passport.use(
     });
   })
 );
+
+passport.serializeUser((user, done) => {
+  console.log(user.id);
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById({ _id: id }, (err, user) => {
+    done(err, user);
+  });
+});

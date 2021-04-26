@@ -4,21 +4,7 @@ import { Link } from "react-router-dom";
 import AsyncSelect from "react-select/async";
 
 import "./header.scss";
-import {
-  Navbar,
-  Nav,
-  Button,
-  Image,
-  Form,
-  FormControl,
-  InputGroup,
-  Collapse,
-  NavDropdown,
-  Dropdown,
-  Row,
-  Col,
-} from "react-bootstrap";
-
+import { Navbar, Nav, Image, NavDropdown, Row, Col } from "react-bootstrap";
 import {
   FaSearch,
   FaHome,
@@ -29,12 +15,11 @@ import {
 } from "react-icons/fa";
 
 import SignIn from "../../areas/signIn";
+import { authenticate, logout } from "../../../reduxStore/auth";
 
-const Header = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-
+const Header = ({ isAuthenticated, logout, authenticate }) => {
   const displayHeader = () => {
-    if (!isSignedIn) {
+    if (!isAuthenticated) {
       return <div></div>;
     }
     return (
@@ -54,9 +39,6 @@ const Header = () => {
               className="bg-light rounded-pill text-placeholder"
               id="basic-navbar-nav"
               style={{ height: 35, maxWidth: 250, minWidth: 100 }}
-              // in={open}
-              // dimension="width"
-              // mountOnEnter
             >
               <NavDropdown
                 title={<FaSearch className="text-placeholder" />}
@@ -91,7 +73,8 @@ const Header = () => {
           <Col xs={3}>
             <Navbar.Collapse className="justify-content-end">
               <NavDropdown alignRight className="bg-white rounded-circle p-0">
-                <NavDropdown.Item>Sign-Out</NavDropdown.Item>
+                <NavDropdown.Item onClick={logout}>Sign-Out</NavDropdown.Item>
+                <NavDropdown.Item onClick={authenticate}>Test</NavDropdown.Item>
               </NavDropdown>
             </Navbar.Collapse>
           </Col>
@@ -108,7 +91,14 @@ const Header = () => {
   );
 };
 
-export default connect(null)(Header);
+export default connect(
+  (state) => {
+    return {
+      isAuthenticated: state.auth.isAuthenticated,
+    };
+  },
+  { logout, authenticate }
+)(Header);
 
 {
   /* <Nav.Link as={Link} to="/" >Home</Nav.Link> */

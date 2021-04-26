@@ -76,23 +76,28 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     if (req.isAuthenticated()) {
+      console.log(req.session);
       const { _id, email, role } = req.user;
       const token = signToken(_id);
-      res.cookie("access_token", token, { httpOnly: true, sameSite: true });
+      res.cookie("access_token", token, { httpOnly: true, sameSite: false });
       res.status(200).json({ isAuthenticated: true, user: { email, role } });
-      console.log(req.isAuthenticated());
     }
   }
 );
 
+userRouter.get("/logout", (req, res) => {
+  req.logOut();
+  res.clearCookie("access_token");
+  res.json({ user: { username: "", role: "" }, success: true });
+});
+
 userRouter.get(
-  "/logout",
-  // passport.authenticate("jwt", { session: false }),
+  "/authenticated",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    req.logOut();
-    res.clearCookie("access_token");
-    res.json({ user: { username: "", role: "" }, success: true });
-    console.log(req.isAuthenticated());
+    console.log(req.session);
+    const { email, role } = req.user;
+    res.status(200).json({ isAuthenticated: true, user: { email, role } });
   }
 );
 

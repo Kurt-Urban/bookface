@@ -15,7 +15,7 @@ import {
 
 import { createUser, login } from "../../../reduxStore/auth";
 
-const SignIn = ({ createUser, login }) => {
+const SignIn = ({ createUser, login, isAuthenticated }) => {
   const [validated, setValidated] = useState(false);
   const [passwordVal, setPasswordVal] = useState(null);
   const [signInValues, setSignInValues] = useState({
@@ -57,9 +57,9 @@ const SignIn = ({ createUser, login }) => {
     event.preventDefault();
   };
 
-  const handleSignInSubmit = (event) => {
+  const handleSignInSubmit = async (event) => {
     event.preventDefault();
-    login(signInValues);
+    await login(signInValues);
   };
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const SignIn = ({ createUser, login }) => {
   };
 
   const displaySignIn = () => {
-    if (false) {
+    if (isAuthenticated) {
       return <div></div>;
     }
     return (
@@ -257,7 +257,7 @@ const SignIn = ({ createUser, login }) => {
 
 export default connect(
   (state) => {
-    return {};
+    return { isAuthenticated: state.auth.isAuthenticated };
   },
   { createUser, login }
 )(SignIn);
