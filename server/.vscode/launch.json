@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Launch Program",
+            "name": "Start",
             "program": "${workspaceFolder}/index.js",
             "request": "launch",
             "skipFiles": [

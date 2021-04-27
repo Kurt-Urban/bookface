@@ -1,3 +1,24 @@
 #search.dropdown-toggle::after {
+  box-shadow: none !important;
+}
+#searchbox {
+  border: 0px solid !important;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.border-custom {
+  background-color: #e7ebf7 !important;
+  border: 0px solid !important;
+  border-top-left-radius: 30px !important;
+  border-bottom-left-radius: 30px !important;
+}
+#searchbtn {
+  padding-top: 5px;
+  padding-left: 12px;
+  width: 39px;
+  height: 39px;
+}
+
+#searchbtn.dropdown-toggle::after {
   display: none !important;
 }

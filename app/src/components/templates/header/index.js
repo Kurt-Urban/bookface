@@ -4,7 +4,17 @@ import { Link } from "react-router-dom";
 import AsyncSelect from "react-select/async";
 
 import "./header.scss";
-import { Navbar, Nav, Image, NavDropdown, Row, Col } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Image,
+  NavDropdown,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import {
   FaSearch,
   FaHome,
@@ -12,9 +22,9 @@ import {
   FaStoreAlt,
   FaUsers,
   FaGamepad,
+  FaBars,
 } from "react-icons/fa";
 
-import SignIn from "../../areas/signIn";
 import { authenticate, logout } from "../../../reduxStore/auth";
 
 const Header = ({ isAuthenticated, logout, authenticate }) => {
@@ -35,17 +45,28 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
                 style={{ height: 35 }}
               />
             </Navbar.Brand>
-            <Navbar.Collapse
-              className="bg-light rounded-pill text-placeholder"
-              id="basic-navbar-nav"
-              style={{ height: 35, maxWidth: 250, minWidth: 100 }}
-            >
+            <Form autoComplete="off" inline>
+              <InputGroup className="d-none d-md-flex">
+                <InputGroup.Prepend className="border-custom pr-0">
+                  <InputGroup.Text id="basic-addon1" className="border-custom">
+                    <FaSearch className="text-dark" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  id="searchbox"
+                  className="bg-light shadow-none pl-0"
+                  placeholder="Search Bookface"
+                  aria-label="Search"
+                  aria-describedby="basic-addon1"
+                />
+              </InputGroup>
+            </Form>
+            <Navbar.Collapse>
               <NavDropdown
-                title={<FaSearch className="text-placeholder" />}
-                id="search"
-                className="pb-1"
+                title={<FaSearch className="text-dark" />}
+                id="searchbtn"
+                className="d-sm-inline d-md-none bg-light rounded-circle"
               ></NavDropdown>
-              Search Bookface
             </Navbar.Collapse>
           </Col>
           <Col
@@ -54,7 +75,9 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
           >
             <Nav className="text-primary">
               <Nav.Item className="h3 px-4">
-                <FaHome />
+                <Link to="/dashboard">
+                  <FaHome />
+                </Link>
               </Nav.Item>
               <Nav.Item className="h3 px-4">
                 <FaTv />
@@ -83,12 +106,7 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
     );
   };
 
-  return (
-    <>
-      {displayHeader()}
-      <SignIn />
-    </>
-  );
+  return <>{displayHeader()}</>;
 };
 
 export default connect(

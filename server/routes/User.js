@@ -88,14 +88,17 @@ userRouter.post(
 userRouter.get("/logout", (req, res) => {
   req.logOut();
   res.clearCookie("access_token");
-  res.json({ user: { username: "", role: "" }, success: true });
+  res.json({
+    isAuthenticated: false,
+    user: { username: "", role: "" },
+    success: true,
+  });
 });
 
 userRouter.get(
-  "/authenticated",
+  "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.session);
     const { email, role } = req.user;
     res.status(200).json({ isAuthenticated: true, user: { email, role } });
   }

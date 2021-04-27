@@ -5,7 +5,7 @@ import history from "../../history";
 
 const base = "AUTH_";
 
-const INITAL_STATE = { isAuthenticated: false, user: { email: "", role: "" } };
+const INITAL_STATE = { isAuthenticated: null, user: { email: "", role: "" } };
 
 export const createdUser = createAction(`${base}_CREATED_USER`);
 export const loggedIn = createAction(`${base}_LOGGEDIN`);
@@ -32,6 +32,7 @@ export const login = (formValues) => async (dispatch) => {
     password: formValues.password,
   });
   dispatch(loggedIn(response.data));
+  history.push("/dashboard");
 };
 
 export const logout = () => async (dispatch) => {
@@ -40,9 +41,9 @@ export const logout = () => async (dispatch) => {
 };
 
 export const authenticate = () => async (dispatch) => {
-  const response = await axios.get("/user/authenticated");
-  console.log(response.data);
-  dispatch(isAuthenticated());
+  const response = await axios.get("/user/auth");
+  dispatch(isAuthenticated(response.data));
+  history.push("/dashboard");
 };
 
 export default handleActions(
@@ -50,6 +51,7 @@ export default handleActions(
     [createdUser]: () => ({ ...INITAL_STATE }),
     [loggedIn]: (state, { payload }) => ({ ...INITAL_STATE, ...payload }),
     [loggedOut]: (state, { payload }) => ({ ...state, ...payload }),
+    [isAuthenticated]: (state, { payload }) => ({ ...state, ...payload }),
   },
   INITAL_STATE
 );
