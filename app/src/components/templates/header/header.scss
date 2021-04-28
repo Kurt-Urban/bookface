@@ -1,10 +1,20 @@
 #search.dropdown-toggle::after {
   box-shadow: none !important;
 }
+.right-dropdown-group:hover {
+  background: #c4d1fa !important;
+  color: #3b5998 !important;
+}
 #searchbox {
   border: 0px solid !important;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
+}
+#searchbtn {
+  padding-top: 5.5px;
+  padding-left: 12px;
+  width: 39px;
+  height: 39px;
 }
 .border-custom {
   background-color: #e7ebf7 !important;
@@ -12,13 +22,56 @@
   border-top-left-radius: 30px !important;
   border-bottom-left-radius: 30px !important;
 }
-#searchbtn {
+
+#overlay {
+  z-index: 3 !important;
+  position: relative;
+  margin-top: 12px;
+}
+
+.dropdown-menu[aria-labelledby="left-dropdown"] {
+  left: -140px !important;
+}
+.dropdown-menu[aria-labelledby="midL-dropdown"] {
+  left: -187px !important;
+}
+.dropdown-menu[aria-labelledby="midR-dropdown"] {
+  left: -234px !important;
+}
+.dropdown-menu[aria-labelledby="right-dropdown"] {
+  left: -281px !important;
+}
+.dropdown-menu[aria-labelledby="left-dropdown"],
+.dropdown-menu[aria-labelledby="midL-dropdown"],
+.dropdown-menu[aria-labelledby="midR-dropdown"],
+.dropdown-menu[aria-labelledby="right-dropdown"] {
+  position: absolute;
+  // z-index: 5 !important;
+  border: none;
+  width: 325px;
+  border-radius: 10px;
+  box-shadow: 0 0.6px 1.9px -1px rgba(0, 0, 0, 0.026),
+    0 1.4px 4.5px -1px rgba(0, 0, 0, 0.037),
+    0 2.5px 8.1px -1px rgba(0, 0, 0, 0.046),
+    0 4.2px 13.5px -1px rgba(0, 0, 0, 0.054),
+    0 6.9px 22.2px -1px rgba(0, 0, 0, 0.063),
+    0 12px 38.8px -1px rgba(0, 0, 0, 0.074), 0 26px 84px -1px rgba(0, 0, 0, 0.1);
+}
+#left-dropdown,
+#midL-dropdown,
+#midR-dropdown,
+#right-dropdown {
   padding-top: 5px;
   padding-left: 12px;
   width: 39px;
   height: 39px;
+  color: #1d1f23;
 }
 
-#searchbtn.dropdown-toggle::after {
+#searchbtn.dropdown-toggle::after,
+#midR-dropdown.dropdown-toggle::after,
+#midL-dropdown.dropdown-toggle::after,
+#left-dropdown.dropdown-toggle::after,
+#right-dropdown.dropdown-toggle::after {
   display: none !important;
 }

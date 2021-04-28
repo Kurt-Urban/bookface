@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import AsyncSelect from "react-select/async";
 
 import "./header.scss";
 import {
@@ -14,6 +13,8 @@ import {
   Form,
   InputGroup,
   FormControl,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import {
   FaSearch,
@@ -22,7 +23,10 @@ import {
   FaStoreAlt,
   FaUsers,
   FaGamepad,
-  FaBars,
+  FaBell,
+  FaFacebookMessenger,
+  FaPlus,
+  FaCaretDown,
 } from "react-icons/fa";
 
 import { authenticate, logout } from "../../../reduxStore/auth";
@@ -33,7 +37,12 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
       return <div></div>;
     }
     return (
-      <Navbar bg="white" fixed="top">
+      <Navbar
+        bg="white"
+        fixed="top"
+        className="shadow-sm"
+        style={{ zIndex: 1 }}
+      >
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Row className="w-100" noGutters>
           <Col xs={3} className="d-flex align-items-center">
@@ -46,7 +55,7 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
               />
             </Navbar.Brand>
             <Form autoComplete="off" inline>
-              <InputGroup className="d-none d-md-flex">
+              <InputGroup className="d-none d-lg-flex">
                 <InputGroup.Prepend className="border-custom pr-0">
                   <InputGroup.Text id="basic-addon1" className="border-custom">
                     <FaSearch className="text-dark" />
@@ -65,7 +74,7 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
               <NavDropdown
                 title={<FaSearch className="text-dark" />}
                 id="searchbtn"
-                className="d-sm-inline d-md-none bg-light rounded-circle"
+                className="d-sm-inline d-lg-none bg-light rounded-circle"
               ></NavDropdown>
             </Navbar.Collapse>
           </Col>
@@ -95,9 +104,75 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
           </Col>
           <Col xs={3}>
             <Navbar.Collapse className="justify-content-end">
-              <NavDropdown alignRight className="bg-white rounded-circle p-0">
+              <NavDropdown
+                title={
+                  <div className="position-absolute w-0">
+                    <OverlayTrigger
+                      trigger="hover"
+                      placement="bottom"
+                      overlay={<Tooltip id="overlay">Create</Tooltip>}
+                    >
+                      <FaPlus />
+                    </OverlayTrigger>
+                  </div>
+                }
+                id="left-dropdown"
+                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+              >
+                <NavDropdown.Item>Left Item 1</NavDropdown.Item>
+                <NavDropdown.Item>Item 2</NavDropdown.Item>
+                <NavDropdown.Item>Item 3</NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown
+                title={
+                  <OverlayTrigger
+                    trigger="hover"
+                    placement="bottom"
+                    overlay={<Tooltip id="overlay">Messenger</Tooltip>}
+                  >
+                    <FaFacebookMessenger />
+                  </OverlayTrigger>
+                }
+                id="midL-dropdown"
+                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+              >
+                <NavDropdown.Item>Mid Left Item 1</NavDropdown.Item>
+                <NavDropdown.Item>Item 2</NavDropdown.Item>
+                <NavDropdown.Item>Item 3</NavDropdown.Item>
+              </NavDropdown>
+
+              <NavDropdown
+                title={
+                  <OverlayTrigger
+                    trigger="hover"
+                    placement="bottom"
+                    overlay={<Tooltip id="overlay">Notifications</Tooltip>}
+                  >
+                    <FaBell />
+                  </OverlayTrigger>
+                }
+                id="midR-dropdown"
+                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+              >
+                <NavDropdown.Item>Mid Right Item 1</NavDropdown.Item>
+                <NavDropdown.Item>Item 2</NavDropdown.Item>
+                <NavDropdown.Item>Item 3</NavDropdown.Item>
+              </NavDropdown>
+
+              <NavDropdown
+                title={
+                  <OverlayTrigger
+                    trigger="hover"
+                    placement="bottom"
+                    overlay={<Tooltip id="overlay">Account</Tooltip>}
+                  >
+                    <FaCaretDown />
+                  </OverlayTrigger>
+                }
+                id="right-dropdown"
+                className="bg-light rounded-circle p-0 mt-1 right-dropdown-group"
+              >
                 <NavDropdown.Item onClick={logout}>Sign-Out</NavDropdown.Item>
-                <NavDropdown.Item onClick={authenticate}>Test</NavDropdown.Item>
               </NavDropdown>
             </Navbar.Collapse>
           </Col>

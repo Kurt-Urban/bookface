@@ -3,6 +3,8 @@ $secondary: #8b9dc3;
 $light: #e7ebf7;
 $dark: #7b8189;
 
+$zindex-tooltip: 990;
+
 @import "~bootstrap/scss/bootstrap";
 
 .focus-none:focus,
