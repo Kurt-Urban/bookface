@@ -4,9 +4,12 @@ import history from "../history";
 
 import Dashboard from "./areas/dashboard";
 import SignIn from "./areas/signIn";
+import Profile from "./areas/profile";
+
 import Spinner from "./templates/loadingScreen";
 
 import "../css/custom.scss";
+
 import { authenticate } from "../reduxStore/auth";
 import { connect } from "react-redux";
 
@@ -33,7 +36,7 @@ const App = ({ authenticate, isAuthenticated }) => {
         <Router history={history}>
           <Switch>
             <Route path="/dashboard" exact component={Dashboard} />
-            <Route path="/profile" exact component="" />
+            <Route path="/profile/:id" exact component={Profile} />
           </Switch>
         </Router>
       </div>

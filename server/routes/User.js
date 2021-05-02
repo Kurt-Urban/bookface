@@ -1,9 +1,9 @@
 const express = require("express");
 const userRouter = express.Router();
 const passport = require("passport");
-const passportConfig = require("../libraries/passport");
 const JWT = require("jsonwebtoken");
 const User = require("../models/User");
+require("../libraries/passport");
 
 const signToken = (userId) => {
   return JWT.sign(
@@ -12,7 +12,7 @@ const signToken = (userId) => {
       sub: userId,
     },
     "Kurban00",
-    { expiresIn: "1h" }
+    { expiresIn: "3h" }
   );
 };
 
@@ -76,11 +76,12 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      console.log(req.session);
       const { _id, email, role } = req.user;
       const token = signToken(_id);
       res.cookie("access_token", token, { httpOnly: true, sameSite: false });
-      res.status(200).json({ isAuthenticated: true, user: { email, role } });
+      res
+        .status(200)
+        .json({ isAuthenticated: true, user: { email, role, _id } });
     }
   }
 );
@@ -99,8 +100,8 @@ userRouter.get(
   "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { email, role } = req.user;
-    res.status(200).json({ isAuthenticated: true, user: { email, role } });
+    const { email, role, _id } = req.user;
+    res.status(200).json({ isAuthenticated: true, user: { _id, email, role } });
   }
 );
 

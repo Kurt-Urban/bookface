@@ -1,0 +1,31 @@
+body {
+  padding-top: 61.5px;
+}
+.profile-body-container {
+  width: 100%;
+}
+.create-post {
+  width: 100%;
+}
+.post-card {
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.003),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.004), 0 12.5px 10px rgba(0, 0, 0, 0.005),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.006), 0 41.8px 33.4px rgba(0, 0, 0, 0.007),
+    0 100px 80px rgba(0, 0, 0, 0.01);
+  border-radius: 15px !important;
+}
+.post-card-header {
+  border-top-right-radius: 15px !important;
+  border-top-left-radius: 15px !important;
+}
+.post-card-body-item {
+  font-size: 0.9rem;
+}
+
+.post-btn:hover {
+  background-color: #e7ebf7;
+}
+
+.post-input {
+  border-radius: 30px !important;
+}

@@ -2,8 +2,7 @@ $primary: #3b5998;
 $secondary: #8b9dc3;
 $light: #e7ebf7;
 $dark: #7b8189;
-
-$zindex-tooltip: 990;
+$info: #1877f2;
 
 @import "~bootstrap/scss/bootstrap";
 
@@ -21,10 +20,10 @@ $zindex-tooltip: 990;
 .cursor-pointer {
   cursor: pointer;
 }
-
 body,
 html,
 #root,
 #body {
+  font-family: "Open Sans", Tahoma, Verdana, sans-serif;
   height: 100%;
 }

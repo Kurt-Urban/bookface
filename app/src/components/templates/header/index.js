@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -29,9 +29,13 @@ import {
   FaCaretDown,
 } from "react-icons/fa";
 
-import { authenticate, logout } from "../../../reduxStore/auth";
+import { logout } from "../../../reduxStore/auth";
 
-const Header = ({ isAuthenticated, logout, authenticate }) => {
+const Header = ({ isAuthenticated, logout, id }) => {
+  const [hover, setHover] = useState(false);
+
+  const handleHover = () => setHover(!hover);
+
   const displayHeader = () => {
     if (!isAuthenticated) {
       return <div></div>;
@@ -46,8 +50,13 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Row className="w-100" noGutters>
           <Col xs={3} className="d-flex align-items-center">
-            <Navbar.Brand>
+            <Navbar.Brand
+              id="brand"
+              onMouseEnter={handleHover}
+              onMouseLeave={handleHover}
+            >
               <Image
+                className={hover ? "dumbspinner" : ""}
                 src="https://i.imgur.com/nn2j8nS.png"
                 alt="logo"
                 roundedCircle
@@ -82,7 +91,7 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
             xs={6}
             className="d-flex align-items-center justify-content-center"
           >
-            <Nav className="text-primary">
+            <Nav className="text-primary d-none d-md-flex">
               <Nav.Item className="h3 px-4">
                 <Link to="/dashboard">
                   <FaHome />
@@ -172,6 +181,11 @@ const Header = ({ isAuthenticated, logout, authenticate }) => {
                 id="right-dropdown"
                 className="bg-light rounded-circle p-0 mt-1 right-dropdown-group"
               >
+                <NavDropdown.Item>
+                  <Nav.Link as={Link} to={`/profile/:${id}`}>
+                    Profile
+                  </Nav.Link>
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={logout}>Sign-Out</NavDropdown.Item>
               </NavDropdown>
             </Navbar.Collapse>
@@ -188,11 +202,8 @@ export default connect(
   (state) => {
     return {
       isAuthenticated: state.auth.isAuthenticated,
+      id: state.auth.user._id,
     };
   },
-  { logout, authenticate }
+  { logout }
 )(Header);
-
-{
-  /* <Nav.Link as={Link} to="/" >Home</Nav.Link> */
-}

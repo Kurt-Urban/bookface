@@ -90,7 +90,7 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
     }
     return (
       <>
-        <Navbar bg="primary">
+        <Navbar bg="primary" className="navbar-signin">
           <Navbar.Brand className="text-white mr-auto h1">
             Bookface
           </Navbar.Brand>
@@ -104,7 +104,6 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
                 onChange={(e) => handleSignInChange(e, "username")}
               />
               <Nav className="justify-content-start">
-                {/* <FormControl id="cb" type="checkbox" className="mr-1" /> */}
                 <FormLabel className="text-secondary h6 small">
                   Nothing to see here.
                 </FormLabel>
