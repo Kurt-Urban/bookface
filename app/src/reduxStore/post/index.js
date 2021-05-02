@@ -18,13 +18,13 @@ export const submitPost = (formData) => async (dispatch) => {
 
 export const fetchPosts = (ID) => async (dispatch) => {
   const response = await axios.get("/upload/fetch/posts", { params: { ID } });
-  console.log(response.data.posts);
+  dispatch(fetchedPosts(response.data.posts));
 };
 
 export default handleActions(
   {
-    // [submittedPost]: (state, { payload }) => [...state, payload],
     [submittedPost]: () => [],
+    [fetchedPosts]: (state, { payload }) => [...INITAL_STATE, ...payload],
   },
   INITAL_STATE
 );

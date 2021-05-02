@@ -43,7 +43,7 @@ const Banner = () => {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col xs={8}>
+          <Col xs={7}>
             <Navbar className="border-top mt-4 navbar">
               <Nav className="mr-auto d-none d-md-flex font-weight-bold">
                 <Nav.Item>

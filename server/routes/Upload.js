@@ -27,8 +27,12 @@ uploadRouter.post(
   multerUpload.single("imageFile"),
   async (req, res) => {
     const { userId, post } = req.body;
+    const postDate = new Date(Date.now());
     const parsedPost = JSON.parse(post);
-    if (req.file !== undefined) parsedPost.img = req.file.filename;
+    if (req.file !== undefined) {
+      parsedPost.img = req.file.filename;
+    }
+    parsedPost.date = postDate.toString();
     try {
       await User.findByIdAndUpdate(userId, {
         $push: { posts: parsedPost },

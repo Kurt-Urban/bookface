@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import uuid from "react-uuid";
 import { submitPost, fetchPosts } from "../../../../reduxStore/post";
 
+import PostCard from "./postCard";
+
 import "./profilebody.scss";
 import {
   Modal,
@@ -28,6 +30,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
     id: "",
     textPost: "",
     img: "",
+    date: "",
   });
 
   useEffect(() => {
@@ -105,7 +108,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
       </Modal>
       <Container fluid className="p-0 mt-3 profile-body-container">
         <Row className="justify-content-center d-flex">
-          <Col xs={8} sm={4} className="photo-list">
+          <Col xs={8} sm={3} className="photo-list">
             <Card>Photos</Card>
           </Col>
           <Col xs={8} sm={4} className="create-post">
@@ -164,6 +167,12 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
                 </Nav>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row className="justify-content-center d-flex">
+          <Col xs={3}></Col>
+          <Col xs={4}>
+            <PostCard />
           </Col>
         </Row>
       </Container>
