@@ -14,7 +14,10 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
+import { AiOutlineLike } from "react-icons/ai";
+import { BiShare } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 const PostCard = ({ posts, profileImg, firstName, lastName }) => {
   const userPosts = posts.map((n) => n).reverse();
@@ -65,39 +68,42 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
                 <Row className="mt-1">
                   <Col
                     className={`py-2 ${
-                      post.textPost.length <= 40 ? "post-text-alt" : "post-text"
+                      post.textPost.length <= 50 ? "post-text-alt" : "post-text"
                     }`}
                   >
                     {post.textPost}
                   </Col>
                 </Row>
                 <Row>{displayPostImg(post.img)}</Row>
-                <Row className="d-flex align-items-center py-1 mt-2 mb-0 border border-grey border-right-0 border-left-0">
-                  <Col className="px-0">
-                    <Button
-                      fluid
-                      variant="white"
-                      className="shadow-none font-weight-bold w-100 post-btn py-1"
-                    >
-                      Like
-                    </Button>
-                  </Col>
-                  <Col className="px-1">
-                    <Button
-                      variant="white"
-                      className="shadow-none font-weight-bold w-100 post-btn py-1"
-                    >
-                      Comment
-                    </Button>
-                  </Col>
-                  <Col className="px-0">
-                    <Button
-                      variant="white"
-                      className="shadow-none font-weight-bold w-100 post-btn py-1"
-                    >
-                      Share
-                    </Button>
-                  </Col>
+                <Row className="px-2 d-flex justify-content-center">
+                  <Row className="d-flex p-1 w-100 align-items-center border border-grey border-right-0 border-left-0">
+                    <Col className="px-0">
+                      <Button
+                        fluid
+                        variant="white"
+                        className="shadow-none font-weight-bold w-100 post-btn py-1"
+                      >
+                        <AiOutlineLike className="like-icon mr-1" /> Like
+                      </Button>
+                    </Col>
+                    <Col className="px-1">
+                      <Button
+                        variant="white"
+                        className="shadow-none font-weight-bold w-100 post-btn py-1"
+                      >
+                        <FaRegCommentAlt className="comment-icon mr-1" />{" "}
+                        Comment
+                      </Button>
+                    </Col>
+                    <Col className="px-0">
+                      <Button
+                        variant="white"
+                        className="shadow-none font-weight-bold w-100 post-btn py-1"
+                      >
+                        <BiShare className="share-icon mr-1" /> Share
+                      </Button>
+                    </Col>
+                  </Row>
                 </Row>
               </Card.Body>
             </Card>

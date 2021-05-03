@@ -4,6 +4,14 @@ body {
 .modal-dialog {
   padding: 0 9rem;
 }
+.text-area {
+  font-size: 1.6rem !important;
+  height: 10rem !important;
+  resize: none;
+}
+.file-label {
+  cursor: pointer;
+}
 .profile-body-container {
   width: 100%;
 }

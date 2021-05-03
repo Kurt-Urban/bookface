@@ -18,6 +18,7 @@ import {
   Button,
   Form,
   FormControl,
+  FormLabel,
 } from "react-bootstrap";
 
 import { HiVideoCamera } from "react-icons/hi";
@@ -34,16 +35,24 @@ const ProfileBody = ({
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const [imgFile, setImgFile] = useState(null);
+  const [imgName, setImgName] = useState(null);
   const [postValues, setPostValues] = useState({
     id: "",
     textPost: "",
     img: "",
     date: "",
+    comments: [],
+    likes: null,
   });
 
   useEffect(() => {
     authenticate();
   }, [authenticate, submitPost]);
+
+  const handleModalHide = () => {
+    setModalShow(false);
+    setImgName(null);
+  };
 
   const handleTextChange = (event) => {
     const value = event.target.value;
@@ -56,6 +65,7 @@ const ProfileBody = ({
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setImgFile(file);
+    setImgName(file.name);
   };
   const handlePostSubmit = async (e) => {
     // e.preventDefault();
@@ -75,7 +85,7 @@ const ProfileBody = ({
     <>
       <Modal
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={() => handleModalHide()}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -103,21 +113,28 @@ const ProfileBody = ({
             </Nav>
             <FormControl
               onChange={(e) => handleTextChange(e)}
-              className="mb-2 shadow-none border-0 px-0"
+              className="mb-2 shadow-none border-0 px-0 text-area"
               as="textarea"
-              style={{ fontSize: 25 }}
               placeholder="What's on your mind?"
             />
             <FormControl
               type="file"
+              id="file"
               name="selectedImg"
               onChange={handleFileChange}
-            />
+              className="mb-2 d-none"
+            />{" "}
+            <Nav className="justify-content-center align-items-center">
+              <FormLabel for="file" className="mb-3 file-label">
+                <MdPhotoLibrary style={{ color: "#45bd62", marginBottom: 3 }} />{" "}
+                {imgName === null ? "Add a Photo..." : imgName}
+              </FormLabel>
+            </Nav>
             <Button
               type="submit"
               variant="info"
               block
-              onClick={() => setModalShow(false)}
+              onClick={() => handleModalHide()}
             >
               Submit
             </Button>
