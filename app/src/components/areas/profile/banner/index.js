@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import "./banner.scss";
 import {
@@ -13,7 +14,7 @@ import {
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
 
-const Banner = () => {
+const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
   return (
     <>
       <Container className="bg-white p-0 header shadow" fluid>
@@ -21,7 +22,7 @@ const Banner = () => {
           <Col xs={8} className="banner-img-container">
             {/* <FaRegImage className="cover-icon text-placeholder h2" /> */}
             <Image
-              src={`http://localhost:3001/images/${"1619982046081-shadow-zugspitze.jpg"}`}
+              src={`http://localhost:3001/images/${bannerImg}`}
               alt="banner"
               rounded
               className="banner-img"
@@ -34,16 +35,18 @@ const Banner = () => {
             className="d-flex profile-img-container justify-content-center"
           >
             <Image
-              src={`http://localhost:3001/images/${"1619980030154-profileImg.jpg"}`}
-              alt="profileImg"
+              src={`http://localhost:3001/images/${profileImg}`}
+              alt="Not Found"
               roundedCircle
               className="profile-img"
             />
-            <h3 className="d-block font-weight-bold mt-2 pb-0">Kurt Urban</h3>
+            <h3 className="d-block font-weight-bold mt-2 pb-0">
+              {firstName + " " + lastName}
+            </h3>
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col xs={7}>
+          <Col xs={8}>
             <Navbar className="border-top mt-4 navbar">
               <Nav className="mr-auto d-none d-md-flex font-weight-bold">
                 <Nav.Item>
@@ -94,4 +97,11 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default connect((state) => {
+  return {
+    bannerImg: state.auth.user.bannerImg,
+    profileImg: state.auth.user.profileImg,
+    firstName: state.auth.user.firstName,
+    lastName: state.auth.user.lastName,
+  };
+})(Banner);

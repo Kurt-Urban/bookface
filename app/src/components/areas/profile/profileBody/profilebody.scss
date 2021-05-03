@@ -1,6 +1,9 @@
 body {
   padding-top: 61.5px;
 }
+.modal-dialog {
+  padding: 0 9rem;
+}
 .profile-body-container {
   width: 100%;
 }
@@ -22,7 +25,7 @@ body {
   font-size: 0.9rem;
 }
 
-.post-btn:hover {
+.submit-btn:hover {
   background-color: #e7ebf7;
 }
 

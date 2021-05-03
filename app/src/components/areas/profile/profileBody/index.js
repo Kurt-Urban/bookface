@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import uuid from "react-uuid";
-import { submitPost, fetchPosts } from "../../../../reduxStore/post";
+import { submitPost } from "../../../../reduxStore/post";
+import { authenticate } from "../../../../reduxStore/auth";
 
 import PostCard from "./postCard";
 
@@ -23,7 +24,14 @@ import { HiVideoCamera } from "react-icons/hi";
 import { MdPhotoLibrary } from "react-icons/md";
 import { IoFlagSharp } from "react-icons/io5";
 
-const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
+const ProfileBody = ({
+  authenticate,
+  submitPost,
+  userId,
+  profileImg,
+  firstName,
+  lastName,
+}) => {
   const [modalShow, setModalShow] = useState(false);
   const [imgFile, setImgFile] = useState(null);
   const [postValues, setPostValues] = useState({
@@ -34,9 +42,8 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
   });
 
   useEffect(() => {
-    fetchPosts(userId);
-    console.log("Fetching");
-  }, []);
+    authenticate();
+  }, [authenticate, submitPost]);
 
   const handleTextChange = (event) => {
     const value = event.target.value;
@@ -51,7 +58,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
     setImgFile(file);
   };
   const handlePostSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const postId = uuid();
     await setPostValues((prevState) => {
       prevState.id = postId;
@@ -72,23 +79,34 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="post-modal px-5"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
+          <Modal.Title id="contained-modal-title-vcenter" className="ml-auto">
             Create Post
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handlePostSubmit}>
             <Nav className="mb-2">
-              <Nav.Item>Image</Nav.Item>
+              <Nav.Item>
+                <Image
+                  src={`http://localhost:3001/images/${profileImg}`}
+                  alt="Not Found"
+                  roundedCircle
+                  style={{ maxWidth: 38, marginRight: 10 }}
+                />
+              </Nav.Item>
               <Nav.Item className="font-weight-bold font-size-sm ml-1">
-                Kurt Urban
+                {firstName + " " + lastName}
               </Nav.Item>
             </Nav>
             <FormControl
               onChange={(e) => handleTextChange(e)}
-              className="mb-2"
+              className="mb-2 shadow-none border-0 px-0"
+              as="textarea"
+              style={{ fontSize: 25 }}
+              placeholder="What's on your mind?"
             />
             <FormControl
               type="file"
@@ -108,16 +126,16 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
       </Modal>
       <Container fluid className="p-0 mt-3 profile-body-container">
         <Row className="justify-content-center d-flex">
-          <Col xs={8} sm={3} className="photo-list">
+          <Col xs={8} md={3} className="photo-list">
             <Card>Photos</Card>
           </Col>
-          <Col xs={8} sm={4} className="create-post">
+          <Col xs={8} md={5} className="create-post">
             <Card className="post-card">
               <Card.Header className="bg-white post-card-header">
                 <Form className="d-flex" onSubmit={handlePostSubmit}>
                   <Image
-                    src={`http://localhost:3001/images/${"1619980030154-profileImg.jpg"}`}
-                    alt="profileImg"
+                    src={`http://localhost:3001/images/${profileImg}`}
+                    alt="Not Found"
                     roundedCircle
                     style={{ maxWidth: 38, marginRight: 10 }}
                   />
@@ -133,7 +151,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
                   <Nav.Item className="post-card-body-item text-dark">
                     <Button
                       variant="white"
-                      className="shadow-none w-100 post-btn"
+                      className="shadow-none w-100 submit-btn"
                     >
                       <HiVideoCamera
                         style={{ color: "red", marginBottom: 2 }}
@@ -144,7 +162,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
                   <Nav.Item className="post-card-body-item text-dark">
                     <Button
                       variant="white"
-                      className="shadow-none w-100 post-btn"
+                      className="shadow-none w-100 submit-btn"
                       onClick={() => setModalShow(true)}
                     >
                       <MdPhotoLibrary
@@ -156,7 +174,7 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
                   <Nav.Item className="post-card-body-item text-dark">
                     <Button
                       variant="white"
-                      className="shadow-none w-100 post-btn"
+                      className="shadow-none w-100 submit-btn"
                     >
                       <IoFlagSharp
                         style={{ color: "#39afd5", marginBottom: 2 }}
@@ -170,8 +188,10 @@ const ProfileBody = ({ userId, submitPost, fetchPosts }) => {
           </Col>
         </Row>
         <Row className="justify-content-center d-flex">
-          <Col xs={3}></Col>
-          <Col xs={4}>
+          <Col xs={0} md={3} className="d-none d-md-flex">
+            Spacer
+          </Col>
+          <Col xs={8} md={5}>
             <PostCard />
           </Col>
         </Row>
@@ -184,7 +204,10 @@ export default connect(
   (state) => {
     return {
       userId: state.auth.user._id,
+      profileImg: state.auth.user.profileImg,
+      firstName: state.auth.user.firstName,
+      lastName: state.auth.user.lastName,
     };
   },
-  { submitPost, fetchPosts }
+  { submitPost, authenticate }
 )(ProfileBody);

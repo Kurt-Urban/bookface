@@ -22,6 +22,11 @@ export const createUser = (formValues) => async (dispatch) => {
     releaseYear: formValues.releaseYear,
     genre: formValues.genre,
     title: formValues.title,
+    friends: Array,
+    posts: Array,
+    photos: Array,
+    profileImg: String,
+    bannerImg: String,
   });
   dispatch(createdUser());
 };
@@ -43,7 +48,6 @@ export const logout = () => async (dispatch) => {
 export const authenticate = () => async (dispatch) => {
   const response = await axios.get("/user/auth");
   dispatch(isAuthenticated(response.data));
-  history.push("/dashboard");
 };
 
 export default handleActions(

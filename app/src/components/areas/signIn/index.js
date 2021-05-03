@@ -31,6 +31,8 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
     releaseYear: Number,
     genre: "",
     title: "",
+    profileImg: "",
+    bannerImg: "",
     soulGiven: null,
   });
 

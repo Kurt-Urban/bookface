@@ -30,6 +30,7 @@ userRouter.post("/register", (req, res) => {
     title,
     photos,
     profileImg,
+    bannerImg,
   } = req.body;
   User.findOne({ email }, (err, user) => {
     if (err)
@@ -55,6 +56,7 @@ userRouter.post("/register", (req, res) => {
         title,
         photos,
         profileImg,
+        bannerImg,
       });
       newUser.save((err) => {
         if (err)
@@ -76,12 +78,43 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      const { _id, email, role } = req.user;
+      const {
+        _id,
+        email,
+        role,
+        posts,
+        firstName,
+        lastName,
+        releaseYear,
+        genre,
+        title,
+        photos,
+        friends,
+        profileImg,
+        bannerImg,
+      } = req.user;
       const token = signToken(_id);
       res.cookie("access_token", token, { httpOnly: true, sameSite: false });
       res
         .status(200)
-        .json({ isAuthenticated: true, user: { email, role, _id } });
+        .json({
+          isAuthenticated: true,
+          user: {
+            email,
+            role,
+            _id,
+            posts,
+            firstName,
+            lastName,
+            releaseYear,
+            genre,
+            title,
+            photos,
+            friends,
+            profileImg,
+            bannerImg,
+          },
+        });
     }
   }
 );
@@ -100,8 +133,39 @@ userRouter.get(
   "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { email, role, _id } = req.user;
-    res.status(200).json({ isAuthenticated: true, user: { _id, email, role } });
+    const {
+      email,
+      role,
+      _id,
+      posts,
+      firstName,
+      lastName,
+      releaseYear,
+      genre,
+      title,
+      photos,
+      friends,
+      profileImg,
+      bannerImg,
+    } = req.user;
+    res.status(200).json({
+      isAuthenticated: true,
+      user: {
+        _id,
+        email,
+        role,
+        posts,
+        firstName,
+        lastName,
+        releaseYear,
+        genre,
+        title,
+        photos,
+        friends,
+        profileImg,
+        bannerImg,
+      },
+    });
   }
 );
 

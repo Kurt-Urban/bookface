@@ -1,0 +1,35 @@
+.post-card {
+  border-radius: 15px !important;
+  box-shadow: 0 0.3px 1.1px rgba(0, 0, 0, 0.011),
+    0 0.7px 2.7px rgba(0, 0, 0, 0.016), 0 1.3px 5px rgba(0, 0, 0, 0.02),
+    0 2.2px 8.9px rgba(0, 0, 0, 0.024), 0 4.2px 16.7px rgba(0, 0, 0, 0.029),
+    0 10px 40px rgba(0, 0, 0, 0.04) !important;
+}
+.post-card-header {
+  border-top-right-radius: 15px !important;
+  border-top-left-radius: 15px !important;
+}
+.post-body {
+  padding: 20px 15px !important;
+}
+.post-name {
+  font-size: 0.8rem;
+  font-weight: bolder;
+}
+.post-date {
+  font-size: 0.8rem;
+}
+.post-text {
+  font-size: 0.9rem;
+  font-weight: lighter;
+}
+.post-text-alt {
+  font-size: 1.2rem;
+}
+.post-btn:hover {
+  background-color: #f0f2f5;
+}
+.post-btn {
+  color: #888e94 !important;
+  font-size: 0.8rem !important;
+}

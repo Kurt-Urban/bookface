@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 import history from "../history";
 
 import Dashboard from "./areas/dashboard";
@@ -11,7 +12,6 @@ import Spinner from "./templates/loadingScreen";
 import "../css/custom.scss";
 
 import { authenticate } from "../reduxStore/auth";
-import { connect } from "react-redux";
 
 const App = ({ authenticate, isAuthenticated }) => {
   const [loaded, setLoaded] = useState(false);
@@ -20,6 +20,7 @@ const App = ({ authenticate, isAuthenticated }) => {
     async function loadContent() {
       await authenticate();
     }
+
     loadContent();
     setLoaded(true);
   }, []);
