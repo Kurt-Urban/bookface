@@ -16,7 +16,6 @@ import { authenticate } from "../reduxStore/auth";
 const App = ({ authenticate, isAuthenticated }) => {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
-    setLoaded(false);
     async function loadContent() {
       await authenticate();
     }
@@ -44,9 +43,11 @@ const App = ({ authenticate, isAuthenticated }) => {
     );
   } else if (!isAuthenticated) {
     return (
-      <div id="body">
-        <SignIn />
-      </div>
+      <Router history={history}>
+        <Switch>
+          <Route path="/" exact component={SignIn} />
+        </Switch>
+      </Router>
     );
   }
 };

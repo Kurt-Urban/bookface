@@ -35,9 +35,9 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
           <Container key={index} className="p-0 mt-3">
             <Card className="post-card">
               <Card.Header className="post-card-header pb-0 mb-0 bg-white border-bottom-0">
-                <Container className="">
-                  <Row className="">
-                    <Col xs={1} className=" pl-0 mr-3">
+                <Container>
+                  <Row>
+                    <Col xs={1} className="pl-0 mr-3">
                       <Image
                         src={`http://localhost:3001/images/${profileImg}`}
                         alt="Not Found"
@@ -74,7 +74,7 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
                     {post.textPost}
                   </Col>
                 </Row>
-                <Row>{displayPostImg(post.img)}</Row>
+                <Row className="mb-2">{displayPostImg(post.img)}</Row>
                 <Row className="px-2 d-flex justify-content-center">
                   <Row className="d-flex p-1 w-100 align-items-center border border-grey border-right-0 border-left-0">
                     <Col className="px-0">

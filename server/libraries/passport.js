@@ -15,7 +15,7 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: cookieExtractor,
-      secretOrKey: "Kurban00",
+      secretOrKey: "bookface-app",
     },
     (payload, done) => {
       User.findById({ _id: payload.sub }, (err, user) => {

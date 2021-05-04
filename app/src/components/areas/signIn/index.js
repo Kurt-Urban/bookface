@@ -87,9 +87,9 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
   };
 
   const displaySignIn = () => {
-    if (isAuthenticated) {
-      return <div></div>;
-    }
+    // if (isAuthenticated) {
+    //   return <div></div>;
+    // }
     return (
       <>
         <Navbar bg="primary" className="navbar-signin">

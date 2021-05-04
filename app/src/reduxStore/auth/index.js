@@ -43,6 +43,7 @@ export const login = (formValues) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   const response = await axios.get("/user/logout", { credentials: "include" });
   dispatch(loggedIn(response.data));
+  history.push("/");
 };
 
 export const authenticate = () => async (dispatch) => {

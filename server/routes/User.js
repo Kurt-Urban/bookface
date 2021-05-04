@@ -8,10 +8,10 @@ require("../libraries/passport");
 const signToken = (userId) => {
   return JWT.sign(
     {
-      iss: "Kurban00",
+      iss: "bookface-app",
       sub: userId,
     },
-    "Kurban00",
+    "bookface-app",
     { expiresIn: "3h" }
   );
 };
@@ -95,26 +95,24 @@ userRouter.post(
       } = req.user;
       const token = signToken(_id);
       res.cookie("access_token", token, { httpOnly: true, sameSite: false });
-      res
-        .status(200)
-        .json({
-          isAuthenticated: true,
-          user: {
-            email,
-            role,
-            _id,
-            posts,
-            firstName,
-            lastName,
-            releaseYear,
-            genre,
-            title,
-            photos,
-            friends,
-            profileImg,
-            bannerImg,
-          },
-        });
+      res.status(200).json({
+        isAuthenticated: true,
+        user: {
+          email,
+          role,
+          _id,
+          posts,
+          firstName,
+          lastName,
+          releaseYear,
+          genre,
+          title,
+          photos,
+          friends,
+          profileImg,
+          bannerImg,
+        },
+      });
     }
   }
 );
@@ -133,6 +131,7 @@ userRouter.get(
   "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    // if (req.user) {
     const {
       email,
       role,
@@ -166,6 +165,10 @@ userRouter.get(
         bannerImg,
       },
     });
+    // } else
+    //   res
+    //     .status(401)
+    //     .json({ message: { msgbody: "Unauthorized", msgError: true } });
   }
 );
 
