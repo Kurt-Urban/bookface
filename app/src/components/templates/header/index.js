@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./header.scss";
 import {
+  Button,
   Navbar,
   Nav,
   Image,
@@ -31,7 +32,7 @@ import {
 
 import { logout } from "../../../reduxStore/auth";
 
-const Header = ({ isAuthenticated, logout, id }) => {
+const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
   const [hover, setHover] = useState(false);
 
   const handleHover = () => setHover(!hover);
@@ -111,8 +112,25 @@ const Header = ({ isAuthenticated, logout, id }) => {
               </Nav.Item>
             </Nav>
           </Col>
-          <Col xs={3}>
+          <Col xs={3} className="d-flex justify-content-center">
             <Navbar.Collapse className="justify-content-end">
+              <Button
+                as={Link}
+                className={`mr-2 m1-1 border-0 shadow-none rounded-pill d-flex justify-content-center ${
+                  window.location.href.slice(-24) === id
+                    ? "profile-btn-alt"
+                    : "profile-btn"
+                } `}
+                to={`/profile/:${id}`}
+              >
+                <Image
+                  src={`http://localhost:3001/images/${profileImg}`}
+                  roundedCircle
+                  className="mr-1"
+                  style={{ maxWidth: 28 }}
+                />{" "}
+                <Nav className="align-items-center">{firstName}</Nav>
+              </Button>
               <NavDropdown
                 title={
                   <div className="position-absolute w-0">
@@ -181,10 +199,8 @@ const Header = ({ isAuthenticated, logout, id }) => {
                 id="right-dropdown"
                 className="bg-light rounded-circle p-0 mt-1 right-dropdown-group"
               >
-                <NavDropdown.Item>
-                  <Nav.Link as={Link} to={`/profile/:${id}`}>
-                    Profile
-                  </Nav.Link>
+                <NavDropdown.Item onClick={() => console.log("test")}>
+                  Test
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={logout}>Sign-Out</NavDropdown.Item>
               </NavDropdown>
@@ -203,6 +219,8 @@ export default connect(
     return {
       isAuthenticated: state.auth.isAuthenticated,
       id: state.auth.user._id,
+      profileImg: state.auth.user.profileImg,
+      firstName: state.auth.user.firstName,
     };
   },
   { logout }

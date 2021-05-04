@@ -46,7 +46,7 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col xs={8}>
+          <Col xs={10} md={8}>
             <Navbar className="border-top mt-4 navbar">
               <Nav className="mr-auto d-none d-md-flex font-weight-bold">
                 <Nav.Item>

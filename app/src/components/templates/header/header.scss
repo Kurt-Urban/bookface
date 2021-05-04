@@ -30,6 +30,22 @@
   margin-top: 12px;
 }
 
+.profile-btn:hover {
+  background-color: #e7ebf7 !important;
+}
+.profile-btn {
+  margin-top: 4px;
+  height: 39px;
+  background-color: #ffffff !important;
+  color: black !important;
+}
+.profile-btn-alt {
+  margin-top: 4px;
+  height: 39px;
+  background-color: #e7f3ff !important;
+  color: #3688f4 !important;
+}
+
 .dropdown-menu[aria-labelledby="left-dropdown"] {
   left: -140px !important;
 }

@@ -143,10 +143,10 @@ const ProfileBody = ({
       </Modal>
       <Container fluid className="p-0 mt-3 profile-body-container">
         <Row className="justify-content-center d-flex">
-          <Col xs={8} md={3} className="photo-list">
+          <Col xs={10} md={3} className="photo-list">
             <Card>Photos</Card>
           </Col>
-          <Col xs={8} md={5} className="create-post">
+          <Col xs={10} md={5} className="create-post">
             <Card className="post-card">
               <Card.Header className="bg-white post-card-header">
                 <Form className="d-flex" onSubmit={handlePostSubmit}>
@@ -208,7 +208,7 @@ const ProfileBody = ({
           <Col xs={0} md={3} className="d-none d-md-flex">
             Spacer
           </Col>
-          <Col xs={8} md={5}>
+          <Col xs={10} md={5}>
             <PostCard />
           </Col>
         </Row>
