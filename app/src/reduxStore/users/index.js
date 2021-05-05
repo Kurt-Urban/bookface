@@ -12,7 +12,6 @@ export const fetchedUsers = createAction(`${base}FETCHED_USERS`);
 export const fetchUsers = () => async (dispatch) => {
   const response = await axios.get("/profile/fetch/users");
   dispatch(fetchedUsers(response.data));
-  console.log(response.data);
 };
 
 export default handleActions(

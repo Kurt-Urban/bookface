@@ -33,6 +33,14 @@
   color: #888e94 !important;
   font-size: 0.8rem !important;
 }
+.post-profile-thumbnail {
+  max-width: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  max-width: 38px;
+  min-height: 38px;
+  min-width: 38px;
+}
 .like-icon {
   font-size: 1.1rem !important;
   margin-bottom: 0.2rem;

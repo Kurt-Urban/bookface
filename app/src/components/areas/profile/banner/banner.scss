@@ -40,8 +40,12 @@ body {
 }
 
 .profile-img {
+  border-radius: 50%;
+  object-fit: cover;
   border: 4px white solid;
   max-width: 11rem;
+  min-height: 11rem;
+  min-width: 11rem;
 }
 
 .navbar {

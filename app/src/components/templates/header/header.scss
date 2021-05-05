@@ -45,6 +45,14 @@
   background-color: #e7f3ff !important;
   color: #3688f4 !important;
 }
+.profile-thumbnail {
+  max-width: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  max-width: 28px;
+  min-height: 28px;
+  min-width: 28px;
+}
 
 .dropdown-menu[aria-labelledby="left-dropdown"] {
   left: -140px !important;

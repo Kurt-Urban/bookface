@@ -6,6 +6,7 @@ import { fetchUser } from "../../../../reduxStore/profile";
 
 import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { onImgError } from "../../../../functions/images/onImgError";
 
 const DashboardBody = ({ fetchUsers, users, fetchUser }) => {
   useEffect(() => {
@@ -22,8 +23,8 @@ const DashboardBody = ({ fetchUsers, users, fetchUser }) => {
             <Image
               src={`http://localhost:3001/images/${user.profileImg}`}
               alt="Not Found"
-              roundedCircle
-              style={{ maxWidth: 38, marginRight: 10 }}
+              className="profile-thumbnail"
+              onError={(e) => onImgError(e)}
             />
           </Link>
         </Container>

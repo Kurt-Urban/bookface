@@ -135,9 +135,7 @@ const Header = ({
               >
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
-                  roundedCircle
-                  className="mr-1"
-                  style={{ maxWidth: 28 }}
+                  className="mr-1 profile-thumbnail"
                 />{" "}
                 <Nav className="align-items-center">{firstName}</Nav>
               </Button>

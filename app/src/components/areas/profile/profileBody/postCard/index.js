@@ -18,7 +18,6 @@ import { FaRegCommentAlt } from "react-icons/fa";
 
 const PostCard = ({ posts, profileImg, firstName, lastName }) => {
   const userPosts = posts.map((n) => n).reverse();
-
   const displayPostImg = (postImg) => {
     if (postImg !== "") {
       return <Image fluid src={`http://localhost:3001/images/${postImg}`} />;
@@ -38,8 +37,7 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
                       <Image
                         src={`http://localhost:3001/images/${profileImg}`}
                         alt="Not Found"
-                        roundedCircle
-                        style={{ maxWidth: 38, marginRight: 10 }}
+                        className="post-profile-thumbnail"
                       />
                     </Col>
                     <Col className="pl-0 ">
@@ -71,7 +69,9 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
                     {post.textPost}
                   </Col>
                 </Row>
-                <Row className="mb-2">{displayPostImg(post.img)}</Row>
+                <Row className="mb-2 d-flex justify-content-center">
+                  {displayPostImg(post.img)}
+                </Row>
                 <Row className="px-2 d-flex justify-content-center">
                   <Row className="d-flex p-1 w-100 align-items-center border border-grey border-right-0 border-left-0">
                     <Col className="px-0">

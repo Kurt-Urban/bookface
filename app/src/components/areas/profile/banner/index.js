@@ -13,6 +13,7 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
+import { onImgError } from "../../../../functions/images/onImgError";
 
 const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
   return (
@@ -20,7 +21,6 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
       <Container className="bg-white p-0 header shadow" fluid>
         <Row xs={8} className="justify-content-center">
           <Col xs={8} className="banner-img-container">
-            {/* <FaRegImage className="cover-icon text-placeholder h2" /> */}
             <Image
               src={`http://localhost:3001/images/${bannerImg}`}
               alt="banner"
@@ -37,8 +37,8 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
             <Image
               src={`http://localhost:3001/images/${profileImg}`}
               alt="Not Found"
-              roundedCircle
               className="profile-img"
+              onError={(e) => onImgError(e)}
             />
             <h3 className="d-block font-weight-bold mt-2 pb-0">
               {firstName + " " + lastName}
