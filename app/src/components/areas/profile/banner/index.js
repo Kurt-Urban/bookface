@@ -13,7 +13,7 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
-import { onImgError } from "../../../../functions/images/onImgError";
+import { onProfileImgError } from "../../../../functions/images/onProfileImgError";
 
 const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
   return (
@@ -38,7 +38,7 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
               src={`http://localhost:3001/images/${profileImg}`}
               alt="Not Found"
               className="profile-img"
-              onError={(e) => onImgError(e)}
+              onError={(e) => onProfileImgError(e)}
             />
             <h3 className="d-block font-weight-bold mt-2 pb-0">
               {firstName + " " + lastName}
