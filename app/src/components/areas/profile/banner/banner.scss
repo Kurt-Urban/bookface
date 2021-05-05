@@ -17,10 +17,12 @@ body {
 }
 .banner-img-container {
   // border: 2px red solid;
+  padding: 0 !important;
   position: relative;
   overflow: hidden;
   max-height: 20rem;
   min-height: 8rem;
+  border-radius: 10px;
 }
 .banner-img {
   width: 100%;

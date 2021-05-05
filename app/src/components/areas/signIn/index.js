@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import "./signIn.scss";
 import {
   Form,
+  Image,
+  Container,
   Col,
   Row,
   FormControl,
@@ -87,9 +89,6 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
   };
 
   const displaySignIn = () => {
-    // if (isAuthenticated) {
-    //   return <div></div>;
-    // }
     return (
       <>
         <Navbar bg="primary" className="navbar-signin">
@@ -130,126 +129,143 @@ const SignIn = ({ createUser, login, isAuthenticated }) => {
           </Form>
         </Navbar>
 
-        <Nav className="d-flex justify-content-end mt-4 mr-5">
-          <Form
-            noValidate
-            validated={validated}
-            onSubmit={handleSignUpSubmit}
-            className=""
-          >
-            <Form.Group>
-              <Form.Label className="h2 mb-0">Sign Up</Form.Label>
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label className="h6 small mb-0">
-                It's free and always will be. Maybe.
-              </Form.Label>
-            </Form.Group>
-
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridFirstName">
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Author's First Name"
-                  onChange={(e) => handleSignUpChange(e, "firstName")}
-                />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridLastName">
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Author's Last Name"
-                  onChange={(e) => handleSignUpChange(e, "lastName")}
-                />
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Group controlId="formGridEmail">
-              <Form.Control
-                required
-                type="email"
-                placeholder="Enter Email"
-                onChange={(e) => handleSignUpChange(e, "email")}
+        <Container className=" p-3 pt-5" fluid>
+          <Row className="">
+            <Col xs={12} md={7} className="px-4">
+              <h5 className="text-primary font-weight-bold">
+                Bookface helps you connect and share with the other authors that
+                are not in your life.
+              </h5>
+              <Image
+                className="mt-4"
+                fluid
+                src="http://localhost:3001/images/1620233007884-world-map-alt (2).jpg"
               />
-            </Form.Group>
-
-            <Form.Row className="mb-0">
-              <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Control
-                  required
-                  type="password"
-                  placeholder="Enter Password"
-                  onChange={(e) => handleSignUpChange(e, "password")}
-                />
-              </Form.Group>
-
-              <Form.Group
-                as={Col}
-                controlId="formGridConfirmedPassword"
-                className="mb-0 "
+            </Col>
+            <Col xs={12} md={5} className="px-4">
+              <Form
+                noValidate
+                validated={validated}
+                onSubmit={handleSignUpSubmit}
+                className=""
               >
-                <Form.Control
-                  required
-                  type="password"
-                  placeholder="Confirm Password"
-                  onChange={(e) => handleSignUpChange(e, "confirmedPassword")}
-                />
-                {passwordMatch()}
-              </Form.Group>
-            </Form.Row>
+                <Form.Group>
+                  <Form.Label className="h2 mb-0">Sign Up</Form.Label>
+                </Form.Group>
 
-            <Form.Group controlId="formGridTitle">
-              <Form.Label className="h6">Enter Book Title</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter Title"
-                onChange={(e) => handleSignUpChange(e, "title")}
-              />
-            </Form.Group>
+                <Form.Group>
+                  <Form.Label className="h6 small mb-0">
+                    It's free and always will be. Maybe.
+                  </Form.Label>
+                </Form.Group>
 
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridYear">
-                <Form.Label className="h6">Enter Release Year</Form.Label>
-                <Form.Control
-                  required
-                  type="number"
-                  min={0}
-                  max={2025}
-                  placeholder="Year"
-                  onChange={(e) => handleSignUpChange(e, "releaseYear")}
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <Form.Label className="h6">Enter Book Genre</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Genre"
-                  onChange={(e) => handleSignUpChange(e, "genre")}
-                />
-              </Form.Group>
-            </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridFirstName">
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Author's First Name"
+                      onChange={(e) => handleSignUpChange(e, "firstName")}
+                    />
+                  </Form.Group>
 
-            <Form.Group id="formGridCheckbox">
-              <Form.Check
-                required
-                type="checkbox"
-                label="I agree to sign over my soul."
-                onChange={() =>
-                  true ? (signUpValues.soulGiven = true) : false
-                }
-              />
-            </Form.Group>
+                  <Form.Group as={Col} controlId="formGridLastName">
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Author's Last Name"
+                      onChange={(e) => handleSignUpChange(e, "lastName")}
+                    />
+                  </Form.Group>
+                </Form.Row>
 
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Nav>
+                <Form.Group controlId="formGridEmail">
+                  <Form.Control
+                    required
+                    type="email"
+                    placeholder="Enter Email"
+                    onChange={(e) => handleSignUpChange(e, "email")}
+                  />
+                </Form.Group>
+
+                <Form.Row className="mb-0">
+                  <Form.Group as={Col} controlId="formGridPassword">
+                    <Form.Control
+                      required
+                      type="password"
+                      placeholder="Enter Password"
+                      onChange={(e) => handleSignUpChange(e, "password")}
+                    />
+                  </Form.Group>
+
+                  <Form.Group
+                    as={Col}
+                    controlId="formGridConfirmedPassword"
+                    className="mb-0 "
+                  >
+                    <Form.Control
+                      required
+                      type="password"
+                      placeholder="Confirm Password"
+                      onChange={(e) =>
+                        handleSignUpChange(e, "confirmedPassword")
+                      }
+                    />
+                    {passwordMatch()}
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Group controlId="formGridTitle">
+                  <Form.Label className="h6">Enter Book Title</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Enter Title"
+                    onChange={(e) => handleSignUpChange(e, "title")}
+                  />
+                </Form.Group>
+
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridYear">
+                    <Form.Label className="h6">Enter Release Year</Form.Label>
+                    <Form.Control
+                      required
+                      type="number"
+                      min={0}
+                      max={2025}
+                      placeholder="Year"
+                      onChange={(e) => handleSignUpChange(e, "releaseYear")}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <Form.Label className="h6">Enter Book Genre</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Genre"
+                      onChange={(e) => handleSignUpChange(e, "genre")}
+                    />
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Group id="formGridCheckbox">
+                  <Form.Check
+                    required
+                    type="checkbox"
+                    label="I agree to sign over my soul."
+                    onChange={() =>
+                      true ? (signUpValues.soulGiven = true) : false
+                    }
+                  />
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </>
     );
   };

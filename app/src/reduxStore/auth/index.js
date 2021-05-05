@@ -1,5 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import axios from "../../axios";
+import uuid from "react-uuid";
 
 import history from "../../history";
 
@@ -7,13 +8,17 @@ const base = "AUTH_";
 
 const INITAL_STATE = { isAuthenticated: null, user: { email: "", role: "" } };
 
-export const createdUser = createAction(`${base}_CREATED_USER`);
-export const loggedIn = createAction(`${base}_LOGGEDIN`);
-export const loggedOut = createAction(`${base}_LOGGEDOUT`);
-export const isAuthenticated = createAction(`${base}_ISAUTHENTICATED`);
+export const createdUser = createAction(`${base}CREATED_USER`);
+export const loggedIn = createAction(`${base}LOGGEDIN`);
+export const loggedOut = createAction(`${base}LOGGEDOUT`);
+export const isAuthenticated = createAction(`${base}ISAUTHENTICATED`);
 
 export const createUser = (formValues) => async (dispatch) => {
+  const id = `${formValues.firstName}-${formValues.lastName}-${uuid().slice(
+    -11
+  )}`;
   await axios.post("/user/register", {
+    profileId: id,
     firstName: formValues.firstName,
     lastName: formValues.lastName,
     role: "user",
@@ -25,8 +30,8 @@ export const createUser = (formValues) => async (dispatch) => {
     friends: Array,
     posts: Array,
     photos: Array,
-    profileImg: String,
-    bannerImg: String,
+    profileImg: "",
+    bannerImg: "",
   });
   dispatch(createdUser());
 };
@@ -37,6 +42,7 @@ export const login = (formValues) => async (dispatch) => {
     password: formValues.password,
   });
   dispatch(loggedIn(response.data));
+  console.log(response.data);
   history.push("/dashboard");
 };
 

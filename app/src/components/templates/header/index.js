@@ -31,8 +31,17 @@ import {
 } from "react-icons/fa";
 
 import { logout } from "../../../reduxStore/auth";
+import profile, { fetchUser } from "../../../reduxStore/profile";
 
-const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
+const Header = ({
+  isAuthenticated,
+  logout,
+  fetchUser,
+  id,
+  profileImg,
+  firstName,
+  profileId,
+}) => {
   const [hover, setHover] = useState(false);
 
   const handleHover = () => setHover(!hover);
@@ -117,11 +126,12 @@ const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
               <Button
                 as={Link}
                 className={`mr-2 m1-1 border-0 shadow-none rounded-pill d-flex justify-content-center ${
-                  window.location.href.slice(-24) === id
+                  window.location.href.slice(30) === profileId
                     ? "profile-btn-alt"
                     : "profile-btn"
                 } `}
-                to={`/profile/:${id}`}
+                to={`/profile/${profileId}`}
+                onClick={() => fetchUser(profileId)}
               >
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
@@ -144,7 +154,7 @@ const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
                   </div>
                 }
                 id="left-dropdown"
-                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+                className="bg-light d-none d-lg-flex rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
               >
                 <NavDropdown.Item>Left Item 1</NavDropdown.Item>
                 <NavDropdown.Item>Item 2</NavDropdown.Item>
@@ -161,7 +171,7 @@ const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
                   </OverlayTrigger>
                 }
                 id="midL-dropdown"
-                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+                className="bg-light d-none d-lg-flex rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
               >
                 <NavDropdown.Item>Mid Left Item 1</NavDropdown.Item>
                 <NavDropdown.Item>Item 2</NavDropdown.Item>
@@ -179,7 +189,7 @@ const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
                   </OverlayTrigger>
                 }
                 id="midR-dropdown"
-                className="bg-light rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
+                className="bg-light d-none d-lg-flex rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
               >
                 <NavDropdown.Item>Mid Right Item 1</NavDropdown.Item>
                 <NavDropdown.Item>Item 2</NavDropdown.Item>
@@ -199,7 +209,9 @@ const Header = ({ isAuthenticated, logout, id, profileImg, firstName }) => {
                 id="right-dropdown"
                 className="bg-light rounded-circle p-0 mt-1 right-dropdown-group"
               >
-                <NavDropdown.Item onClick={() => console.log("test")}>
+                <NavDropdown.Item
+                  onClick={() => console.log(window.location.href.slice(30))}
+                >
                   Test
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={logout}>Sign-Out</NavDropdown.Item>
@@ -221,7 +233,8 @@ export default connect(
       id: state.auth.user._id,
       profileImg: state.auth.user.profileImg,
       firstName: state.auth.user.firstName,
+      profileId: state.auth.user.profileId,
     };
   },
-  { logout }
+  { logout, fetchUser }
 )(Header);

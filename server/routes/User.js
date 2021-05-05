@@ -18,6 +18,7 @@ const signToken = (userId) => {
 
 userRouter.post("/register", (req, res) => {
   const {
+    profileId,
     email,
     password,
     role,
@@ -44,6 +45,7 @@ userRouter.post("/register", (req, res) => {
       });
     else {
       const newUser = new User({
+        profileId,
         email,
         password,
         role,
@@ -79,6 +81,7 @@ userRouter.post(
   (req, res) => {
     if (req.isAuthenticated()) {
       const {
+        profileId,
         _id,
         email,
         role,
@@ -98,6 +101,7 @@ userRouter.post(
       res.status(200).json({
         isAuthenticated: true,
         user: {
+          profileId,
           email,
           role,
           _id,
@@ -131,8 +135,8 @@ userRouter.get(
   "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    // if (req.user) {
     const {
+      profileId,
       email,
       role,
       _id,
@@ -150,6 +154,7 @@ userRouter.get(
     res.status(200).json({
       isAuthenticated: true,
       user: {
+        profileId,
         _id,
         email,
         role,
@@ -165,10 +170,6 @@ userRouter.get(
         bannerImg,
       },
     });
-    // } else
-    //   res
-    //     .status(401)
-    //     .json({ message: { msgbody: "Unauthorized", msgError: true } });
   }
 );
 

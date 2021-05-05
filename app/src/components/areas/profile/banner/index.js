@@ -99,9 +99,9 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
 
 export default connect((state) => {
   return {
-    bannerImg: state.auth.user.bannerImg,
-    profileImg: state.auth.user.profileImg,
-    firstName: state.auth.user.firstName,
-    lastName: state.auth.user.lastName,
+    bannerImg: state.profile.bannerImg,
+    profileImg: state.profile.profileImg,
+    firstName: state.profile.firstName,
+    lastName: state.profile.lastName,
   };
 })(Banner);

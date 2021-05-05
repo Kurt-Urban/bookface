@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "./postcard.scss";
@@ -8,11 +8,8 @@ import {
   Card,
   Row,
   Col,
-  Nav,
   Dropdown,
   Button,
-  Form,
-  FormControl,
 } from "react-bootstrap";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiShare } from "react-icons/bi";

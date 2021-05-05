@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
   photos: Array,
   profileImg: String,
   bannerImg: String,
+  profileId: String,
 });
 
 UserSchema.pre("save", function (next) {

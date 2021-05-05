@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 
 import Header from "../../templates/header";
 import Banner from "./banner";
 import ProfileBody from "./profileBody";
 
-const Profile = () => {
+import { clearUser, fetchUser } from "../../../reduxStore/profile";
+
+const Profile = ({ fetchUser, clearUser }) => {
+  useEffect(() => {
+    fetchUser(window.location.href.slice(30));
+    return () => {
+      clearUser();
+    };
+  }, []);
   return (
     <>
       <Header />
@@ -14,4 +23,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default connect(null, { fetchUser, clearUser })(Profile);

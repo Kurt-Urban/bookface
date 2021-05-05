@@ -12,6 +12,7 @@ const path = require("path");
 
 const userRouter = require("./routes/User");
 const uploadRouter = require("./routes/Upload");
+const profileRouter = require("./routes/Profile");
 
 app.use(cors({ credentials: true }));
 app.use(express.static("public"));
@@ -32,6 +33,7 @@ mongoose
 
 app.use("/user", userRouter);
 app.use("/upload", uploadRouter);
+app.use("/profile", profileRouter);
 
 app.listen(port, () => {
   console.log("Connected");
