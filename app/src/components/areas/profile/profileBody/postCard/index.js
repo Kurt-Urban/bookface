@@ -113,9 +113,9 @@ const PostCard = ({ posts, profileImg, firstName, lastName }) => {
 
 export default connect((state) => {
   return {
-    posts: state.auth.user.posts,
-    profileImg: state.auth.user.profileImg,
-    firstName: state.auth.user.firstName,
-    lastName: state.auth.user.lastName,
+    posts: state.profile.posts,
+    profileImg: state.profile.profileImg,
+    firstName: state.profile.firstName,
+    lastName: state.profile.lastName,
   };
 })(PostCard);

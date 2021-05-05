@@ -9,7 +9,8 @@ import { clearUser, fetchUser } from "../../../reduxStore/profile";
 
 const Profile = ({ fetchUser, clearUser }) => {
   useEffect(() => {
-    fetchUser(window.location.href.slice(30));
+    const profileId = window.location.href.slice(30);
+    fetchUser(profileId);
     return () => {
       clearUser();
     };
