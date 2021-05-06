@@ -32,7 +32,7 @@ import {
 
 import { logout } from "../../../reduxStore/auth";
 import { fetchUser } from "../../../reduxStore/profile";
-import { onProfileImgError } from "../../../functions/images/onProfileImgError";
+import { onProfileImgError } from "../../../functions/images/";
 
 const Header = ({
   isAuthenticated,
@@ -68,7 +68,7 @@ const Header = ({
             >
               <Image
                 className={hover ? "dumbspinner" : ""}
-                src="/bookface.png"
+                src="https://i.imgur.com/nn2j8nS.png"
                 alt="logo"
                 roundedCircle
                 style={{ height: 35 }}
@@ -125,19 +125,18 @@ const Header = ({
           <Col xs={3} className="d-flex justify-content-center">
             <Navbar.Collapse className="justify-content-end">
               <Button
-                as={Link}
+                as={Nav.Link}
                 className={`mr-2 m1-1 border-0 shadow-none rounded-pill d-flex justify-content-center ${
                   window.location.href.slice(30) === profileId
                     ? "profile-btn-alt"
                     : "profile-btn"
                 } `}
-                to={`/profile/${profileId}`}
+                href={`http://localhost:3000/profile/${profileId}`}
                 onClick={() => fetchUser(profileId)}
               >
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
                   className="mr-1 profile-thumbnail"
-                  onError={(e) => onProfileImgError(e)}
                 />{" "}
                 <Nav className="align-items-center">{firstName}</Nav>
               </Button>

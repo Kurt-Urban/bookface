@@ -10,7 +10,6 @@ profileRouter.get("/fetch/user", async (req, res) => {
       "-password -_id -role -__v",
       (error, result) => {
         if (error) res.send(error);
-        console.log(result);
         res.status(200).send(result);
       }
     );

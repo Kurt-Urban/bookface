@@ -51,7 +51,7 @@ uploadRouter.get("/fetch/posts", async (req, res) => {
   const { ID } = req.query;
   try {
     await User.findById(ID, (error, result) => {
-      if (error) res.send(error);
+      if (error) console.log(error);
       res.send(result);
     });
   } catch (error) {
@@ -63,7 +63,22 @@ uploadRouter.get("/fetch/posts", async (req, res) => {
 });
 
 uploadRouter.delete("/delete", async (req, res) => {
-  res.send("Deleted");
+  const { postId } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { "posts.id": postId },
+      { $pull: { posts: { id: postId } } },
+      (error, doc) => {
+        if (error) console.log(error);
+        res.send("Deleted");
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
 });
 
 //TESTING WITH MONGOOSE

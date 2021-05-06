@@ -17,10 +17,18 @@ import { BiShare } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegCommentAlt } from "react-icons/fa";
 
-import { onProfileImgError } from "../../../../../functions/images/onProfileImgError";
+import { onProfileImgError } from "../../../../../functions/images";
 import { deletePost } from "../../../../../reduxStore/post";
 
-const PostCard = ({ posts, profileImg, firstName, lastName, deletePost }) => {
+const PostCard = ({
+  posts,
+  profileImg,
+  profileId,
+  userId,
+  firstName,
+  lastName,
+  deletePost,
+}) => {
   const [userPosts, setUserPosts] = useState([]);
   useEffect(() => {
     if (!posts) return;
@@ -32,6 +40,33 @@ const PostCard = ({ posts, profileImg, firstName, lastName, deletePost }) => {
       return <Image fluid src={`http://localhost:3001/images/${postImg}`} />;
     }
     return;
+  };
+
+  const displayPostMenu = (post) => {
+    if (profileId !== userId) return <div></div>;
+    return (
+      <DropdownButton
+        title={
+          <BsThreeDots style={{ fontSize: "1.5rem" }} className="text-dark" />
+        }
+        id="post-menu"
+        className="border-0"
+        variant="white"
+        menuAlign="right"
+      >
+        <Dropdown.Item onClick={(e) => console.log(post.id)}>
+          Edit
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            deletePost(post.id);
+            window.location.reload(1);
+          }}
+        >
+          Delete
+        </Dropdown.Item>
+      </DropdownButton>
+    );
   };
 
   const displayPost = () => {
@@ -62,21 +97,7 @@ const PostCard = ({ posts, profileImg, firstName, lastName, deletePost }) => {
                     </div>
                   </Col>
                   <Col className="post-date d-flex justify-content-end pt-1">
-                    <DropdownButton
-                      title={
-                        <BsThreeDots
-                          style={{ fontSize: "1.5rem" }}
-                          className="text-dark"
-                        />
-                      }
-                      id="post-menu"
-                      className="border-0"
-                      variant="white"
-                      menuAlign="right"
-                    >
-                      <Dropdown.Item onClick={deletePost}>Edit</Dropdown.Item>
-                      <Dropdown.Item>Delete</Dropdown.Item>
-                    </DropdownButton>
+                    {displayPostMenu(post)}
                   </Col>
                 </Row>
               </Container>
@@ -136,6 +157,8 @@ export default connect(
   (state) => {
     return {
       posts: state.profile.posts,
+      userId: state.auth.user.profileId,
+      profileId: state.profile.profileId,
       profileImg: state.profile.profileImg,
       firstName: state.profile.firstName,
       lastName: state.profile.lastName,

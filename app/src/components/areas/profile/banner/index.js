@@ -13,7 +13,10 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
-import { onProfileImgError } from "../../../../functions/images/onProfileImgError";
+import {
+  onProfileImgError,
+  onBannerImgError,
+} from "../../../../functions/images";
 
 const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
   return (
@@ -23,9 +26,8 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
           <Col xs={8} className="banner-img-container">
             <Image
               src={`http://localhost:3001/images/${bannerImg}`}
-              alt="banner"
-              rounded
               className="banner-img"
+              onError={(e) => onBannerImgError(e)}
             />
           </Col>
         </Row>

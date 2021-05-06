@@ -25,7 +25,7 @@ import { HiVideoCamera } from "react-icons/hi";
 import { MdPhotoLibrary } from "react-icons/md";
 import { IoFlagSharp } from "react-icons/io5";
 
-import { onProfileImgError } from "../../../../functions/images/onProfileImgError";
+import { onProfileImgError } from "../../../../functions/images";
 
 const ProfileBody = ({
   authenticate,

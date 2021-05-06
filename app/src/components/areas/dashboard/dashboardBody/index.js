@@ -6,7 +6,7 @@ import { fetchUser } from "../../../../reduxStore/profile";
 
 import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { onProfileImgError } from "../../../../functions/images/onProfileImgError";
+import { onProfileImgError } from "../../../../functions/images";
 
 const DashboardBody = ({ fetchUsers, users, fetchUser }) => {
   useEffect(() => {
