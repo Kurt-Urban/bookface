@@ -42,7 +42,6 @@ export const login = (formValues) => async (dispatch) => {
     password: formValues.password,
   });
   dispatch(loggedIn(response.data));
-  console.log(response.data);
   history.push("/dashboard");
 };
 

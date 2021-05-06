@@ -25,6 +25,8 @@ import { HiVideoCamera } from "react-icons/hi";
 import { MdPhotoLibrary } from "react-icons/md";
 import { IoFlagSharp } from "react-icons/io5";
 
+import { onProfileImgError } from "../../../../functions/images/onProfileImgError";
+
 const ProfileBody = ({
   authenticate,
   submitPost,
@@ -33,6 +35,7 @@ const ProfileBody = ({
   firstName,
   lastName,
   profileId,
+  currentProfileId,
 }) => {
   const [modalShow, setModalShow] = useState(false);
   const [imgFile, setImgFile] = useState(null);
@@ -69,6 +72,10 @@ const ProfileBody = ({
     setImgName(file.name);
   };
   const handlePostSubmit = async (e) => {
+    e.preventDefault();
+    setTimeout(() => {
+      window.location.reload(1);
+    }, 500);
     const postId = uuid();
     await setPostValues((prevState) => {
       prevState.id = postId;
@@ -83,13 +90,15 @@ const ProfileBody = ({
 
   const displayCreatePost = () => {
     const urlProfileId = window.location.href.slice(30);
-    if (urlProfileId !== profileId) {
+    if (urlProfileId !== currentProfileId) {
       return (
         <>
           <Col xs={10} md={3} className="photo-list">
             <Card>Photos</Card>
           </Col>
-          <Col xs={10} md={5} className="create-post"></Col>
+          <Col xs={10} md={5} className="create-post">
+            <Card>Posts</Card>
+          </Col>
         </>
       );
     }
@@ -101,12 +110,15 @@ const ProfileBody = ({
         <Col xs={10} md={5} className="create-post">
           <Card className="post-card">
             <Card.Header className="bg-white post-card-header">
-              <Form className="d-flex" onSubmit={handlePostSubmit}>
+              <Form
+                className="d-flex"
+                method="/post"
+                onSubmit={handlePostSubmit}
+              >
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
-                  alt="Not Found"
-                  roundedCircle
-                  style={{ maxWidth: 38, marginRight: 10 }}
+                  className="post-profile-img mr-2"
+                  onError={(e) => onProfileImgError(e)}
                 />
                 <FormControl
                   placeholder="What's on your mind?"
@@ -179,8 +191,7 @@ const ProfileBody = ({
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
                   alt="Not Found"
-                  roundedCircle
-                  style={{ maxWidth: 38, marginRight: 10 }}
+                  className="post-profile-img"
                 />
               </Nav.Item>
               <Nav.Item className="font-weight-bold font-size-sm ml-1">
@@ -238,10 +249,11 @@ export default connect(
   (state) => {
     return {
       userId: state.auth.user._id,
-      profileId: state.auth.user.profileId,
-      profileImg: state.auth.user.profileImg,
-      firstName: state.auth.user.firstName,
-      lastName: state.auth.user.lastName,
+      currentProfileId: state.auth.user.profileId,
+      profileId: state.profile.profileId,
+      profileImg: state.profile.profileImg,
+      firstName: state.profile.firstName,
+      lastName: state.profile.lastName,
     };
   },
   { submitPost, authenticate }

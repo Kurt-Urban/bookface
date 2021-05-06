@@ -62,6 +62,10 @@ uploadRouter.get("/fetch/posts", async (req, res) => {
   }
 });
 
+uploadRouter.delete("/delete", async (req, res) => {
+  res.send("Deleted");
+});
+
 //TESTING WITH MONGOOSE
 // uploadRouter.put("/text", async (req, res) => {
 //   const { email, post } = req.body;

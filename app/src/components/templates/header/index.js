@@ -31,7 +31,8 @@ import {
 } from "react-icons/fa";
 
 import { logout } from "../../../reduxStore/auth";
-import profile, { fetchUser } from "../../../reduxStore/profile";
+import { fetchUser } from "../../../reduxStore/profile";
+import { onProfileImgError } from "../../../functions/images/onProfileImgError";
 
 const Header = ({
   isAuthenticated,
@@ -67,7 +68,7 @@ const Header = ({
             >
               <Image
                 className={hover ? "dumbspinner" : ""}
-                src="https://i.imgur.com/nn2j8nS.png"
+                src="/bookface.png"
                 alt="logo"
                 roundedCircle
                 style={{ height: 35 }}
@@ -136,6 +137,7 @@ const Header = ({
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
                   className="mr-1 profile-thumbnail"
+                  onError={(e) => onProfileImgError(e)}
                 />{" "}
                 <Nav className="align-items-center">{firstName}</Nav>
               </Button>

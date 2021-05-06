@@ -19,6 +19,12 @@
 .post-date {
   font-size: 0.8rem;
 }
+#post-menu.dropdown-toggle.btn::after {
+  display: none !important;
+}
+#post-menu {
+  box-shadow: none;
+}
 .post-text {
   font-size: 0.9rem;
   font-weight: lighter;
