@@ -94,78 +94,62 @@ const ProfileBody = ({
     if (urlProfileId !== currentProfileId) {
       return (
         <>
-          <Col xs={10} lg={3} className="photo-list">
-            <PhotosCard />
-          </Col>
-          <Col xs={10} lg={5} className="create-post">
-            <Card>Posts</Card>
-          </Col>
+          <Card>Posts</Card>
         </>
       );
     }
     return (
       <>
-        <Col xs={10} lg={3} className="photo-list">
-          <PhotosCard />
-        </Col>
-        <Col xs={10} lg={5} className="create-post">
-          <Card className="post-card">
-            <Card.Header className="bg-white post-card-header">
-              <Form
-                className="d-flex"
-                method="/post"
-                onSubmit={handlePostSubmit}
-              >
-                <Image
-                  src={`http://localhost:3001/images/${profileImg}`}
-                  className="post-profile-img mr-2"
-                  onError={(e) => onProfileImgError(e)}
-                />
-                <FormControl
-                  placeholder="What's on your mind?"
-                  className="post-input border-0 bg-light shadow-none"
-                  onChange={(e) => handleTextChange(e)}
-                />
-              </Form>
-            </Card.Header>
-            <Card.Body className="py-3">
-              <Nav fill>
-                <Nav.Item className="post-card-body-item text-dark">
-                  <Button
-                    variant="white"
-                    className="shadow-none w-100 submit-btn"
-                  >
-                    <HiVideoCamera style={{ color: "red", marginBottom: 2 }} />{" "}
-                    Go Live
-                  </Button>
-                </Nav.Item>
-                <Nav.Item className="post-card-body-item text-dark">
-                  <Button
-                    variant="white"
-                    className="shadow-none w-100 submit-btn"
-                    onClick={() => setModalShow(true)}
-                  >
-                    <MdPhotoLibrary
-                      style={{ color: "#45bd62", marginBottom: 2 }}
-                    />{" "}
-                    Photo/Video
-                  </Button>
-                </Nav.Item>
-                <Nav.Item className="post-card-body-item text-dark">
-                  <Button
-                    variant="white"
-                    className="shadow-none w-100 submit-btn"
-                  >
-                    <IoFlagSharp
-                      style={{ color: "#39afd5", marginBottom: 2 }}
-                    />{" "}
-                    Life Event
-                  </Button>
-                </Nav.Item>
-              </Nav>
-            </Card.Body>
-          </Card>
-        </Col>
+        <Card className="post-card">
+          <Card.Header className="bg-white post-card-header">
+            <Form className="d-flex" method="/post" onSubmit={handlePostSubmit}>
+              <Image
+                src={`http://localhost:3001/images/${profileImg}`}
+                className="post-profile-img mr-2"
+                onError={(e) => onProfileImgError(e)}
+              />
+              <FormControl
+                placeholder="What's on your mind?"
+                className="post-input border-0 bg-light shadow-none"
+                onChange={(e) => handleTextChange(e)}
+              />
+            </Form>
+          </Card.Header>
+          <Card.Body className="py-3">
+            <Nav fill>
+              <Nav.Item className="post-card-body-item text-dark">
+                <Button
+                  variant="white"
+                  className="shadow-none w-100 submit-btn"
+                >
+                  <HiVideoCamera style={{ color: "red", marginBottom: 2 }} /> Go
+                  Live
+                </Button>
+              </Nav.Item>
+              <Nav.Item className="post-card-body-item text-dark">
+                <Button
+                  variant="white"
+                  className="shadow-none w-100 submit-btn"
+                  onClick={() => setModalShow(true)}
+                >
+                  <MdPhotoLibrary
+                    style={{ color: "#45bd62", marginBottom: 2 }}
+                  />{" "}
+                  Photo/Video
+                </Button>
+              </Nav.Item>
+              <Nav.Item className="post-card-body-item text-dark">
+                <Button
+                  variant="white"
+                  className="shadow-none w-100 submit-btn"
+                >
+                  <IoFlagSharp style={{ color: "#39afd5", marginBottom: 2 }} />{" "}
+                  Life Event
+                </Button>
+              </Nav.Item>
+            </Nav>
+          </Card.Body>
+        </Card>
       </>
     );
   };
@@ -230,14 +214,12 @@ const ProfileBody = ({
         </Modal.Body>
       </Modal>
       <Container fluid className="p-0 mt-3 profile-body-container">
-        <Row className="justify-content-center d-flex">
-          {displayCreatePost()}
-        </Row>
-        <Row className="justify-content-center d-flex">
-          <Col xs={0} lg={3} className="d-none d-lg-flex">
-            Spacer
+        <Row className="justify-content-center">
+          <Col xs={10} md={8} lg={3} className="photo-list">
+            <PhotosCard />
           </Col>
-          <Col xs={10} lg={5}>
+          <Col xs={10} md={8} lg={5}>
+            {displayCreatePost()}
             <PostCard />
           </Col>
         </Row>
