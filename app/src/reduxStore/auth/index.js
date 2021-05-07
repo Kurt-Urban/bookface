@@ -30,8 +30,10 @@ export const createUser = (formValues) => async (dispatch) => {
     friends: Array,
     posts: Array,
     photos: Array,
-    profileImg: "",
-    bannerImg: "",
+    profileImg: String,
+    bannerImg: String,
+    sentRequests: Array,
+    friendRequests: Array,
   });
   dispatch(createdUser());
 };

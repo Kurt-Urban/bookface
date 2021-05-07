@@ -81,6 +81,58 @@ uploadRouter.delete("/delete", async (req, res) => {
   }
 });
 
+uploadRouter.post("/friends/send", async (req, res) => {
+  const { sendingId, receivingId } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: sendingId },
+      { $push: { sentRequests: receivingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: receivingId },
+      { $push: { friendRequests: sendingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
+uploadRouter.post("/friends/cancel", async (req, res) => {
+  const { sendingId, receivingId } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: sendingId },
+      { $pull: { sentRequests: receivingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: receivingId },
+      { $pull: { friendRequests: sendingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
 //TESTING WITH MONGOOSE
 // uploadRouter.put("/text", async (req, res) => {
 //   const { email, post } = req.body;

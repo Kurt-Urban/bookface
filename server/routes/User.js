@@ -17,22 +17,8 @@ const signToken = (userId) => {
 };
 
 userRouter.post("/register", (req, res) => {
-  const {
-    profileId,
-    email,
-    password,
-    role,
-    firstName,
-    lastName,
-    posts,
-    friends,
-    releaseYear,
-    genre,
-    title,
-    photos,
-    profileImg,
-    bannerImg,
-  } = req.body;
+  const { email } = req.body;
+  const userBody = req.body;
   User.findOne({ email }, (err, user) => {
     if (err)
       res
@@ -44,22 +30,7 @@ userRouter.post("/register", (req, res) => {
         message: { msgbody: "Email already in use.", msgError: true },
       });
     else {
-      const newUser = new User({
-        profileId,
-        email,
-        password,
-        role,
-        firstName,
-        lastName,
-        posts,
-        friends,
-        releaseYear,
-        genre,
-        title,
-        photos,
-        profileImg,
-        bannerImg,
-      });
+      const newUser = new User(userBody);
       newUser.save((err) => {
         if (err)
           res.status(500).json({
@@ -80,42 +51,13 @@ userRouter.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     if (req.isAuthenticated()) {
-      const {
-        profileId,
-        _id,
-        email,
-        role,
-        posts,
-        firstName,
-        lastName,
-        releaseYear,
-        genre,
-        title,
-        photos,
-        friends,
-        profileImg,
-        bannerImg,
-      } = req.user;
+      const { _id } = req.user;
+      const userBody = req.user;
       const token = signToken(_id);
       res.cookie("access_token", token, { httpOnly: true, sameSite: false });
       res.status(200).json({
         isAuthenticated: true,
-        user: {
-          profileId,
-          email,
-          role,
-          _id,
-          posts,
-          firstName,
-          lastName,
-          releaseYear,
-          genre,
-          title,
-          photos,
-          friends,
-          profileImg,
-          bannerImg,
-        },
+        user: userBody,
       });
     }
   }
@@ -135,40 +77,10 @@ userRouter.get(
   "/auth",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const {
-      profileId,
-      email,
-      role,
-      _id,
-      posts,
-      firstName,
-      lastName,
-      releaseYear,
-      genre,
-      title,
-      photos,
-      friends,
-      profileImg,
-      bannerImg,
-    } = req.user;
+    const userBody = req.user;
     res.status(200).json({
       isAuthenticated: true,
-      user: {
-        profileId,
-        _id,
-        email,
-        role,
-        posts,
-        firstName,
-        lastName,
-        releaseYear,
-        genre,
-        title,
-        photos,
-        friends,
-        profileImg,
-        bannerImg,
-      },
+      user: userBody,
     });
   }
 );

@@ -27,6 +27,7 @@ import { IoFlagSharp } from "react-icons/io5";
 
 import { onProfileImgError } from "../../../../functions/images";
 import PhotosCard from "./photosCard";
+import FriendsCard from "./friendsCard";
 
 const ProfileBody = ({
   authenticate,
@@ -217,6 +218,7 @@ const ProfileBody = ({
         <Row className="justify-content-center">
           <Col xs={10} md={8} lg={3} className="photo-list">
             <PhotosCard />
+            <FriendsCard />
           </Col>
           <Col xs={10} md={8} lg={5}>
             {displayCreatePost()}

@@ -18,6 +18,8 @@ const INITAL_STATE = {
   title: "",
   profileImg: "",
   bannerImg: "",
+  sentRequests: [],
+  friendRequests: [],
 };
 
 export const fetchedUser = createAction(`${base}FETCHED_USER`);

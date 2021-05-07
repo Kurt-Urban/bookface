@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import {
+  onProfileImgError,
+  onBannerImgError,
+} from "../../../../functions/images";
+import { cancelFriendReq, sendFriendReq } from "../../../../reduxStore/post";
 
 import "./banner.scss";
 import {
@@ -13,12 +18,63 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
-import {
-  onProfileImgError,
-  onBannerImgError,
-} from "../../../../functions/images";
 
-const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
+const useForceUpdate = () => {
+  const [value, setValue] = useState(0);
+  return () => setValue((value) => value + 1);
+};
+
+const Banner = ({
+  bannerImg,
+  profileImg,
+  firstName,
+  lastName,
+  authProfileId,
+  profileId,
+  sendFriendReq,
+  sentRequests,
+  cancelFriendReq,
+}) => {
+  const [cancelText, setCancelText] = useState("Request Sent");
+  const forceUpdate = useForceUpdate();
+
+  const friendRequestData = {
+    sendingId: authProfileId,
+    receivingId: profileId,
+  };
+
+  const displayFriendReqBtn = () => {
+    const handleSendClick = () => {
+      sendFriendReq(friendRequestData);
+      forceUpdate();
+    };
+    const handleCancelClick = () => {
+      cancelFriendReq(friendRequestData);
+      forceUpdate();
+    };
+    if (profileId === authProfileId) return;
+    if (sentRequests.includes(profileId)) {
+      return (
+        <Nav.Item className="mr-2">
+          <Button
+            className="shadow-none"
+            onClick={handleCancelClick}
+            onMouseEnter={() => setCancelText("Cancel Request?")}
+            onMouseLeave={() => setCancelText("Request Sent")}
+          >
+            {cancelText}
+          </Button>
+        </Nav.Item>
+      );
+    }
+    return (
+      <Nav.Item className="mr-2">
+        <Button className="shadow-none" onClick={handleSendClick}>
+          Add Friend
+        </Button>
+      </Nav.Item>
+    );
+  };
   return (
     <>
       <Container className="bg-white p-0 header shadow" fluid>
@@ -85,6 +141,7 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
                 </Nav>
               </Navbar.Collapse>
               <Nav>
+                {displayFriendReqBtn()}
                 <Nav.Item>
                   <Button variant="light" className="">
                     <FaPencilAlt /> Edit Profile
@@ -99,11 +156,17 @@ const Banner = ({ bannerImg, profileImg, firstName, lastName }) => {
   );
 };
 
-export default connect((state) => {
-  return {
-    bannerImg: state.profile.bannerImg,
-    profileImg: state.profile.profileImg,
-    firstName: state.profile.firstName,
-    lastName: state.profile.lastName,
-  };
-})(Banner);
+export default connect(
+  (state) => {
+    return {
+      authProfileId: state.auth.user.profileId,
+      sentRequests: state.auth.user.sentRequests,
+      profileId: state.profile.profileId,
+      bannerImg: state.profile.bannerImg,
+      profileImg: state.profile.profileImg,
+      firstName: state.profile.firstName,
+      lastName: state.profile.lastName,
+    };
+  },
+  { sendFriendReq, cancelFriendReq }
+)(Banner);

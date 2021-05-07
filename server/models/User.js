@@ -16,6 +16,8 @@ const UserSchema = new mongoose.Schema({
   profileImg: String,
   bannerImg: String,
   profileId: String,
+  sentRequests: Array,
+  friendRequests: Array,
 });
 
 UserSchema.pre("save", function (next) {

@@ -24,6 +24,5 @@
 .photo-list-img {
   position: absolute;
   min-height: 100% !important;
-  // min-width: 100% !important;
-  // width: auto !important;
+  object-fit: cover;
 }
