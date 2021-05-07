@@ -4,7 +4,7 @@ import {
   onProfileImgError,
   onBannerImgError,
 } from "../../../../functions/images";
-import { cancelFriendReq, sendFriendReq } from "../../../../reduxStore/post";
+import { cancelFriendReq, sendFriendReq } from "../../../../reduxStore/profile";
 
 import "./banner.scss";
 import {
@@ -19,11 +19,6 @@ import {
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
 
-const useForceUpdate = () => {
-  const [value, setValue] = useState(0);
-  return () => setValue((value) => value + 1);
-};
-
 const Banner = ({
   bannerImg,
   profileImg,
@@ -36,7 +31,13 @@ const Banner = ({
   cancelFriendReq,
 }) => {
   const [cancelText, setCancelText] = useState("Request Sent");
-  const forceUpdate = useForceUpdate();
+  const [sentRequest, setSentRequest] = useState(null);
+
+  useEffect(() => {
+    if (sentRequests.includes(profileId)) {
+      setSentRequest(true);
+    }
+  }, [sentRequests, profileId, setSentRequest]);
 
   const friendRequestData = {
     sendingId: authProfileId,
@@ -46,18 +47,19 @@ const Banner = ({
   const displayFriendReqBtn = () => {
     const handleSendClick = () => {
       sendFriendReq(friendRequestData);
-      forceUpdate();
+      setSentRequest(true);
     };
     const handleCancelClick = () => {
       cancelFriendReq(friendRequestData);
-      forceUpdate();
+      setSentRequest(false);
     };
     if (profileId === authProfileId) return;
-    if (sentRequests.includes(profileId)) {
+    if (sentRequest) {
       return (
         <Nav.Item className="mr-2">
           <Button
             className="shadow-none"
+            variant="info"
             onClick={handleCancelClick}
             onMouseEnter={() => setCancelText("Cancel Request?")}
             onMouseLeave={() => setCancelText("Request Sent")}
@@ -69,7 +71,11 @@ const Banner = ({
     }
     return (
       <Nav.Item className="mr-2">
-        <Button className="shadow-none" onClick={handleSendClick}>
+        <Button
+          className="shadow-none"
+          variant="info"
+          onClick={handleSendClick}
+        >
           Add Friend
         </Button>
       </Nav.Item>

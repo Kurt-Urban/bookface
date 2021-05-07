@@ -35,4 +35,56 @@ profileRouter.get("/fetch/users", async (req, res) => {
   }
 });
 
+profileRouter.post("/friends/send", async (req, res) => {
+  const { sendingId, receivingId } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: sendingId },
+      { $push: { sentRequests: receivingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: receivingId },
+      { $push: { friendRequests: sendingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
+profileRouter.post("/friends/cancel", async (req, res) => {
+  const { sendingId, receivingId } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: sendingId },
+      { $pull: { sentRequests: receivingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: receivingId },
+      { $pull: { friendRequests: sendingId } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
 module.exports = profileRouter;

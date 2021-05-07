@@ -24,6 +24,8 @@ const INITAL_STATE = {
 
 export const fetchedUser = createAction(`${base}FETCHED_USER`);
 export const clearedUser = createAction(`${base}CLEARED_USER`);
+export const sentFriendReq = createAction(`${base}SENT_FRIEND_REQ`);
+export const canceledFriendReq = createAction(`${base}CANCELED_FRIEND_REQ`);
 
 export const fetchUser = (userId) => async (dispatch) => {
   const config = { headers: { userId } };
@@ -33,6 +35,19 @@ export const fetchUser = (userId) => async (dispatch) => {
 
 export const clearUser = () => (dispatch) => {
   dispatch(clearedUser(INITAL_STATE));
+};
+
+export const sendFriendReq = (ids) => async (dispatch) => {
+  await axios.post("/profile/friends/send", ids);
+};
+
+export const cancelFriendReq = (ids) => async (dispatch) => {
+  await axios.post("/profile/friends/cancel", ids);
+  // dispatch(canceledFriendReq(response.data));
+};
+
+export const acceptRequest = (ids) => async (dispatch) => {
+  await axios.post("/profile/friends/accept", ids);
 };
 
 export default handleActions(
