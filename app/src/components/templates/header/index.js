@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import MessageCard from "../messageCard";
+
 import "./header.scss";
 import {
   Button,
@@ -38,7 +40,6 @@ const Header = ({
   isAuthenticated,
   logout,
   fetchUser,
-  id,
   profileImg,
   firstName,
   profileId,
@@ -190,9 +191,12 @@ const Header = ({
                 id="midR-dropdown"
                 className="bg-light d-none d-lg-flex rounded-circle p-0 mr-2 mt-1 right-dropdown-group"
               >
-                <NavDropdown.Item>Mid Right Item 1</NavDropdown.Item>
-                <NavDropdown.Item>Item 2</NavDropdown.Item>
-                <NavDropdown.Item>Item 3</NavDropdown.Item>
+                <h5 className="font-weight-bold mb-3 mt-2 ml-4">
+                  Notifications
+                </h5>
+                <NavDropdown.Item className="p-1">
+                  <MessageCard title="Kurt Urban" img="" acceptable />
+                </NavDropdown.Item>
               </NavDropdown>
 
               <NavDropdown
