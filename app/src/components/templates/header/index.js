@@ -166,6 +166,7 @@ const Header = ({
                 <Image
                   src={`http://localhost:3001/images/${profileImg}`}
                   className="mr-1 profile-thumbnail"
+                  onError={(e) => onProfileImgError(e)}
                 />{" "}
                 <Nav className="align-items-center">{firstName}</Nav>
               </Button>
