@@ -36,18 +36,20 @@ profileRouter.get("/fetch/users", async (req, res) => {
 });
 
 profileRouter.post("/friends/send", async (req, res) => {
-  const { sendingId, receivingId } = req.body;
+  const { sender, recipient } = req.body;
+  const { senderId } = sender;
+  const { receivingId } = recipient;
   try {
     User.findOneAndUpdate(
-      { profileId: sendingId },
-      { $push: { sentRequests: receivingId } },
+      { profileId: senderId },
+      { $push: { sentRequests: recipient } },
       (error) => {
         if (error) console.log(error);
       }
     );
     User.findOneAndUpdate(
       { profileId: receivingId },
-      { $push: { friendRequests: sendingId } },
+      { $push: { friendRequests: sender } },
       (error) => {
         if (error) console.log(error);
       }
@@ -62,18 +64,20 @@ profileRouter.post("/friends/send", async (req, res) => {
 });
 
 profileRouter.post("/friends/cancel", async (req, res) => {
-  const { sendingId, receivingId } = req.body;
+  const { sender, recipient } = req.body;
+  const { senderId } = sender;
+  const { receivingId } = recipient;
   try {
     User.findOneAndUpdate(
-      { profileId: sendingId },
-      { $pull: { sentRequests: receivingId } },
+      { profileId: senderId },
+      { $pull: { sentRequests: recipient } },
       (error) => {
         if (error) console.log(error);
       }
     );
     User.findOneAndUpdate(
       { profileId: receivingId },
-      { $pull: { friendRequests: sendingId } },
+      { $pull: { friendRequests: sender } },
       (error) => {
         if (error) console.log(error);
       }

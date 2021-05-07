@@ -24,24 +24,32 @@ const Banner = ({
   profileImg,
   firstName,
   lastName,
-  authProfileId,
   profileId,
   sendFriendReq,
   sentRequests,
   cancelFriendReq,
+  userProfileId,
+  userFirstName,
+  userLastName,
+  userProfileImg,
 }) => {
   const [cancelText, setCancelText] = useState("Request Sent");
   const [sentRequest, setSentRequest] = useState(null);
 
   useEffect(() => {
-    if (sentRequests.includes(profileId)) {
+    if (sentRequests.some((e) => e.receivingId === profileId)) {
       setSentRequest(true);
     }
   }, [sentRequests, profileId, setSentRequest]);
 
   const friendRequestData = {
-    sendingId: authProfileId,
-    receivingId: profileId,
+    sender: {
+      senderId: userProfileId,
+      firstName: userFirstName,
+      lastName: userLastName,
+      profileImg: userProfileImg,
+    },
+    recipient: { receivingId: profileId, firstName, lastName, profileImg },
   };
 
   const displayFriendReqBtn = () => {
@@ -53,7 +61,7 @@ const Banner = ({
       cancelFriendReq(friendRequestData);
       setSentRequest(false);
     };
-    if (profileId === authProfileId) return;
+    if (profileId === userProfileId) return;
     if (sentRequest) {
       return (
         <Nav.Item className="mr-2">
@@ -165,8 +173,11 @@ const Banner = ({
 export default connect(
   (state) => {
     return {
-      authProfileId: state.auth.user.profileId,
+      userProfileId: state.auth.user.profileId,
       sentRequests: state.auth.user.sentRequests,
+      userFirstName: state.auth.user.firstName,
+      userLastName: state.auth.user.lastName,
+      userProfileImg: state.auth.user.profileImg,
       profileId: state.profile.profileId,
       bannerImg: state.profile.bannerImg,
       profileImg: state.profile.profileImg,

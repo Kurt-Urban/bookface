@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -43,10 +43,38 @@ const Header = ({
   profileImg,
   firstName,
   profileId,
+  friendRequests,
 }) => {
   const [hover, setHover] = useState(false);
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    if (friendRequests) {
+      setRequests(friendRequests.map((n) => n).reverse());
+    }
+  }, [friendRequests]);
 
   const handleHover = () => setHover(!hover);
+
+  const displayNotifications = () => {
+    if (requests) {
+      return (
+        <>
+          {requests.map((req, index) => {
+            return (
+              <NavDropdown.Item className="p-1" key={index}>
+                <MessageCard
+                  title={`${req.firstName} ${req.lastName}`}
+                  img={req.profileImg}
+                  acceptable
+                />
+              </NavDropdown.Item>
+            );
+          })}
+        </>
+      );
+    }
+  };
 
   const displayHeader = () => {
     if (!isAuthenticated) {
@@ -194,9 +222,7 @@ const Header = ({
                 <h5 className="font-weight-bold mb-3 mt-2 ml-4">
                   Notifications
                 </h5>
-                <NavDropdown.Item className="p-1">
-                  <MessageCard title="Kurt Urban" img="" acceptable />
-                </NavDropdown.Item>
+                {displayNotifications()}
               </NavDropdown>
 
               <NavDropdown
@@ -234,6 +260,7 @@ export default connect(
     return {
       isAuthenticated: state.auth.isAuthenticated,
       id: state.auth.user._id,
+      friendRequests: state.auth.user.friendRequests,
       profileImg: state.auth.user.profileImg,
       firstName: state.auth.user.firstName,
       profileId: state.auth.user.profileId,
