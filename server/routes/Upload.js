@@ -35,7 +35,7 @@ uploadRouter.post(
     parsedPost.date = postDate.toString();
     try {
       await User.findByIdAndUpdate(userId, {
-        $push: { posts: parsedPost },
+        $push: { posts: parsedPost, photos: parsedPost.img },
       });
       res.status(201).json({ msgbody: "Submitted", msgError: false });
     } catch (error) {
@@ -63,11 +63,11 @@ uploadRouter.get("/fetch/posts", async (req, res) => {
 });
 
 uploadRouter.delete("/delete", async (req, res) => {
-  const { postId } = req.body;
+  const { postId, postImg } = req.body;
   try {
     User.findOneAndUpdate(
       { "posts.id": postId },
-      { $pull: { posts: { id: postId } } },
+      { $pull: { posts: { id: postId }, photos: postImg } },
       (error, doc) => {
         if (error) console.log(error);
         res.send("Deleted");

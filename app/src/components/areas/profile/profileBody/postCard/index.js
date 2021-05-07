@@ -59,7 +59,7 @@ const PostCard = ({
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
-            deletePost(post.id);
+            deletePost([post.id, post.img]);
             window.location.reload(1);
           }}
         >

@@ -26,6 +26,7 @@ import { MdPhotoLibrary } from "react-icons/md";
 import { IoFlagSharp } from "react-icons/io5";
 
 import { onProfileImgError } from "../../../../functions/images";
+import PhotosCard from "./photosCard";
 
 const ProfileBody = ({
   authenticate,
@@ -93,10 +94,10 @@ const ProfileBody = ({
     if (urlProfileId !== currentProfileId) {
       return (
         <>
-          <Col xs={10} md={3} className="photo-list">
-            <Card>Photos</Card>
+          <Col xs={10} lg={3} className="photo-list">
+            <PhotosCard />
           </Col>
-          <Col xs={10} md={5} className="create-post">
+          <Col xs={10} lg={5} className="create-post">
             <Card>Posts</Card>
           </Col>
         </>
@@ -104,10 +105,10 @@ const ProfileBody = ({
     }
     return (
       <>
-        <Col xs={10} md={3} className="photo-list">
-          <Card>Photos</Card>
+        <Col xs={10} lg={3} className="photo-list">
+          <PhotosCard />
         </Col>
-        <Col xs={10} md={5} className="create-post">
+        <Col xs={10} lg={5} className="create-post">
           <Card className="post-card">
             <Card.Header className="bg-white post-card-header">
               <Form
@@ -233,10 +234,10 @@ const ProfileBody = ({
           {displayCreatePost()}
         </Row>
         <Row className="justify-content-center d-flex">
-          <Col xs={0} md={3} className="d-none d-md-flex">
+          <Col xs={0} lg={3} className="d-none d-lg-flex">
             Spacer
           </Col>
-          <Col xs={10} md={5}>
+          <Col xs={10} lg={5}>
             <PostCard />
           </Col>
         </Row>

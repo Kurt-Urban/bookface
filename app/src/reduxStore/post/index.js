@@ -15,8 +15,9 @@ export const submitPost = (formData) => async (dispatch) => {
   dispatch(submittedPost());
 };
 
-export const deletePost = (postId) => async (dispatch) => {
-  await axios.delete("/upload/delete", { data: { postId } });
+export const deletePost = (post) => async (dispatch) => {
+  const [postId, postImg] = post;
+  await axios.delete("/upload/delete", { data: { postId, postImg } });
   dispatch(deletedPost());
 };
 

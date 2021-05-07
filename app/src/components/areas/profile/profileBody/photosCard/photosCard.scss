@@ -1,0 +1,29 @@
+.photos-card {
+  border-radius: 15px !important;
+  box-shadow: 0 0.3px 1.1px rgba(0, 0, 0, 0.011),
+    0 0.7px 2.7px rgba(0, 0, 0, 0.016), 0 1.3px 5px rgba(0, 0, 0, 0.02),
+    0 2.2px 8.9px rgba(0, 0, 0, 0.024), 0 4.2px 16.7px rgba(0, 0, 0, 0.029),
+    0 10px 40px rgba(0, 0, 0, 0.04) !important;
+}
+.top-row {
+  //   border: 1px red solid !important;
+  //   border-top-right-radius: 2rem !important;
+  //   border-top-left-radius: 2rem !important;
+  //   overflow: hidden;
+}
+.photo-card-container {
+  overflow: hidden;
+  position: relative;
+}
+.photo-card-container::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.photo-list-img {
+  position: absolute;
+  min-height: 100% !important;
+  // min-width: 100% !important;
+  // width: auto !important;
+}
