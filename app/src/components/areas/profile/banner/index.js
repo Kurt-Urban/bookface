@@ -27,6 +27,7 @@ const Banner = ({
   profileId,
   sendFriendReq,
   sentRequests,
+  friendRequests,
   cancelFriendReq,
   userProfileId,
   userFirstName,
@@ -62,6 +63,19 @@ const Banner = ({
       setSentRequest(false);
     };
     if (profileId === userProfileId) return;
+    if (friendRequests.some((e) => e.senderId === profileId)) {
+      return (
+        <Nav.Item className="mr-2">
+          <Button
+            className="shadow-none"
+            variant="info"
+            onClick={() => console.log("make accepting feature")}
+          >
+            Accept Request
+          </Button>
+        </Nav.Item>
+      );
+    }
     if (sentRequest) {
       return (
         <Nav.Item className="mr-2">
@@ -175,6 +189,7 @@ export default connect(
     return {
       userProfileId: state.auth.user.profileId,
       sentRequests: state.auth.user.sentRequests,
+      friendRequests: state.auth.user.friendRequests,
       userFirstName: state.auth.user.firstName,
       userLastName: state.auth.user.lastName,
       userProfileImg: state.auth.user.profileImg,
