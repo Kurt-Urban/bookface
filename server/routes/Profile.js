@@ -91,4 +91,37 @@ profileRouter.post("/friends/cancel", async (req, res) => {
   }
 });
 
+profileRouter.post("/friends/accept", async (req, res) => {
+  const { accepter, sender } = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: accepter.profileId },
+      {
+        $pull: { friendRequests: { senderId: sender.profileId } },
+        $push: { friends: sender },
+      },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: sender.profileId },
+      {
+        $pull: { sentRequests: { receivingId: accepter.profileId } },
+        $push: { friends: accepter },
+      },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    console.log("Accepted");
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
 module.exports = profileRouter;

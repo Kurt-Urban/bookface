@@ -4,7 +4,11 @@ import {
   onProfileImgError,
   onBannerImgError,
 } from "../../../../functions/images";
-import { cancelFriendReq, sendFriendReq } from "../../../../reduxStore/profile";
+import {
+  cancelFriendReq,
+  sendFriendReq,
+  acceptRequest,
+} from "../../../../reduxStore/profile";
 
 import "./banner.scss";
 import {
@@ -20,19 +24,21 @@ import {
 import { FaPencilAlt } from "react-icons/fa";
 
 const Banner = ({
+  acceptRequest,
+  sendFriendReq,
+  cancelFriendReq,
   bannerImg,
   profileImg,
   firstName,
   lastName,
   profileId,
-  sendFriendReq,
   sentRequests,
   friendRequests,
-  cancelFriendReq,
   userProfileId,
   userFirstName,
   userLastName,
   userProfileImg,
+  userFriends,
 }) => {
   const [cancelText, setCancelText] = useState("Request Sent");
   const [sentRequest, setSentRequest] = useState(null);
@@ -52,6 +58,15 @@ const Banner = ({
     },
     recipient: { receivingId: profileId, firstName, lastName, profileImg },
   };
+  const accepterData = {
+    accepter: {
+      profileId: userProfileId,
+      firstName: userFirstName,
+      lastName: userLastName,
+      profileImg: userProfileImg,
+    },
+    sender: { profileId, firstName, lastName, profileImg },
+  };
 
   const displayFriendReqBtn = () => {
     const handleSendClick = () => {
@@ -63,13 +78,26 @@ const Banner = ({
       setSentRequest(false);
     };
     if (profileId === userProfileId) return;
+    if (userFriends.some((e) => e.profileId === profileId)) {
+      return (
+        <Nav.Item className="mr-2">
+          <Button
+            className="shadow-none"
+            variant="light"
+            onClick={() => console.log("add friend removal")}
+          >
+            Friends
+          </Button>
+        </Nav.Item>
+      );
+    }
     if (friendRequests.some((e) => e.senderId === profileId)) {
       return (
         <Nav.Item className="mr-2">
           <Button
             className="shadow-none"
             variant="info"
-            onClick={() => console.log("make accepting feature")}
+            onClick={() => acceptRequest(accepterData)}
           >
             Accept Request
           </Button>
@@ -193,6 +221,7 @@ export default connect(
       userFirstName: state.auth.user.firstName,
       userLastName: state.auth.user.lastName,
       userProfileImg: state.auth.user.profileImg,
+      userFriends: state.auth.user.friends,
       profileId: state.profile.profileId,
       bannerImg: state.profile.bannerImg,
       profileImg: state.profile.profileImg,
@@ -200,5 +229,5 @@ export default connect(
       lastName: state.profile.lastName,
     };
   },
-  { sendFriendReq, cancelFriendReq }
+  { sendFriendReq, cancelFriendReq, acceptRequest }
 )(Banner);
