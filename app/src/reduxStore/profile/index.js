@@ -27,6 +27,7 @@ export const clearedUser = createAction(`${base}CLEARED_USER`);
 export const sentFriendReq = createAction(`${base}SENT_FRIEND_REQ`);
 export const canceledFriendReq = createAction(`${base}CANCELED_FRIEND_REQ`);
 export const acceptedRequest = createAction(`${base}ACCEPTED_REQUEST`);
+export const deletedFriend = createAction(`${base}DELETED_FRIEND`);
 
 export const fetchUser = (userId) => async (dispatch) => {
   const config = { headers: { userId } };
@@ -48,6 +49,11 @@ export const cancelFriendReq = (ids) => async (dispatch) => {
 
 export const acceptRequest = (ids) => async (dispatch) => {
   await axios.post("/profile/friends/accept", ids);
+};
+
+export const deleteFriend = (ids) => async (dispatch) => {
+  await axios.post("/profile/friends/delete", ids);
+  console.log(ids);
 };
 
 export default handleActions(

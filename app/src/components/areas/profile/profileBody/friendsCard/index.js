@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { onPhotoCardError } from "../../../../../functions/images";
+import { onProfileImgError } from "../../../../../functions/images";
 
 import { Container, Image, Card, Row, Col, Nav } from "react-bootstrap";
 
@@ -9,7 +9,7 @@ const FriendsCard = ({ friends }) => {
   const [profileFriends, setProfileFriends] = useState([]);
   useEffect(() => {
     if (!friends) return;
-    else setProfileFriends(friends.map((n) => n).reverse());
+    setProfileFriends(friends.map((n) => n).reverse());
   }, [friends]);
   const displayFriendsCard = () => {
     if (!profileFriends) return <div></div>;
@@ -28,17 +28,43 @@ const FriendsCard = ({ friends }) => {
             <Container fluid className="photos-container">
               <Row className="top-row">
                 {[0, 1, 2].map((n) => {
+                  const friend = profileFriends[n];
+                  if (!friend)
+                    return (
+                      <Col className="p-0 mx-2 rounded">
+                        <div className="rounded photo-card-container">
+                          <Image
+                            fluid
+                            src={`http://localhost:3001/images/${""}`}
+                            className="photo-list-img"
+                            onError={(e) => onProfileImgError(e)}
+                          />
+                        </div>
+                        <h6
+                          style={{ fontSize: ".7rem" }}
+                          className="d-sm-none d-lg-flex font-weight-bold text-dark mt-1"
+                        >
+                          Add Friends!
+                        </h6>
+                      </Col>
+                    );
                   return (
-                    <Col
-                      className="p-1 photo-card-container"
-                      key={profileFriends[n]}
-                    >
-                      <Image
-                        fluid
-                        src={`http://localhost:3001/images/${profileFriends[n]}`}
-                        className="photo-list-img"
-                        onError={(e) => onPhotoCardError(e)}
-                      />
+                    <Col className="p-0 mx-2">
+                      <div
+                        key={friend}
+                        className="rounded photo-card-container"
+                      >
+                        <Image
+                          fluid
+                          src={`http://localhost:3001/images/${friend.profileImg}`}
+                          className="photo-list-img"
+                          onError={(e) => onProfileImgError(e)}
+                        />
+                      </div>
+                      <h6
+                        style={{ fontSize: ".7rem" }}
+                        className="d-sm-none d-lg-flex font-weight-bold text-dark mt-1"
+                      >{`${profileFriends[n].firstName} ${profileFriends[n].lastName}`}</h6>
                     </Col>
                   );
                 })}
@@ -55,7 +81,7 @@ const FriendsCard = ({ friends }) => {
                         fluid
                         src={`http://localhost:3001/images/${profileFriends[n]}`}
                         className="photo-list-img"
-                        onError={(e) => onPhotoCardError(e)}
+                        onError={(e) => onProfileImgError(e)}
                       />
                     </Col>
                   );
@@ -73,7 +99,7 @@ const FriendsCard = ({ friends }) => {
                         fluid
                         src={`http://localhost:3001/images/${profileFriends[n]}`}
                         className="photo-list-img"
-                        onError={(e) => onPhotoCardError(e)}
+                        onError={(e) => onProfileImgError(e)}
                       />
                     </Col>
                   );

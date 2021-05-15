@@ -124,4 +124,30 @@ profileRouter.post("/friends/accept", async (req, res) => {
   }
 });
 
+profileRouter.post("/friends/delete", async (req, res) => {
+  const [deleter, deleted] = req.body;
+  try {
+    User.findOneAndUpdate(
+      { profileId: deleter },
+      { $pull: { friends: { profileId: deleted } } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    User.findOneAndUpdate(
+      { profileId: deleted },
+      { $pull: { friends: { profileId: deleter } } },
+      (error) => {
+        if (error) console.log(error);
+      }
+    );
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
+
 module.exports = profileRouter;

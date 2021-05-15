@@ -8,6 +8,7 @@ import {
   cancelFriendReq,
   sendFriendReq,
   acceptRequest,
+  deleteFriend,
 } from "../../../../reduxStore/profile";
 
 import "./banner.scss";
@@ -20,6 +21,7 @@ import {
   Nav,
   Button,
   NavDropdown,
+  Modal,
 } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
 
@@ -27,6 +29,7 @@ const Banner = ({
   acceptRequest,
   sendFriendReq,
   cancelFriendReq,
+  deleteFriend,
   bannerImg,
   profileImg,
   firstName,
@@ -41,13 +44,23 @@ const Banner = ({
   userFriends,
 }) => {
   const [cancelText, setCancelText] = useState("Request Sent");
-  const [sentRequest, setSentRequest] = useState(null);
+  const [sentRequest, setSentRequest] = useState(false);
+  const [displayFriend, setDisplayFriend] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (sentRequests.some((e) => e.receivingId === profileId)) {
       setSentRequest(true);
     }
-  }, [sentRequests, profileId, setSentRequest]);
+  }, [sentRequests, profileId]);
+  useEffect(() => {
+    if (userFriends.some((e) => e.profileId === profileId)) {
+      setDisplayFriend(true);
+    }
+  }, [userFriends, profileId]);
 
   const friendRequestData = {
     sender: {
@@ -69,6 +82,33 @@ const Banner = ({
   };
 
   const displayFriendReqBtn = () => {
+    const displayDeleteModal = () => {
+      const handleDelete = () => {
+        handleClose();
+        deleteFriend([userProfileId, profileId]);
+        setDisplayFriend(false);
+      };
+      return (
+        <>
+          <Modal show={show} size="lg" onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Remove friend?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="">
+              Are you sure you want to remove {firstName} as a friend?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="light" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="info" onClick={handleDelete}>
+                Delete Friend
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      );
+    };
     const handleSendClick = () => {
       sendFriendReq(friendRequestData);
       setSentRequest(true);
@@ -77,18 +117,24 @@ const Banner = ({
       cancelFriendReq(friendRequestData);
       setSentRequest(false);
     };
+    const handleAcceptClick = () => {
+      acceptRequest(accepterData);
+    };
     if (profileId === userProfileId) return;
-    if (userFriends.some((e) => e.profileId === profileId)) {
+    if (displayFriend) {
       return (
-        <Nav.Item className="mr-2">
-          <Button
-            className="shadow-none"
-            variant="light"
-            onClick={() => console.log("add friend removal")}
-          >
-            Friends
-          </Button>
-        </Nav.Item>
+        <>
+          {displayDeleteModal()}
+          <Nav.Item className="mr-2">
+            <Button
+              className="shadow-none"
+              variant="light"
+              onClick={handleShow}
+            >
+              Friends
+            </Button>
+          </Nav.Item>
+        </>
       );
     }
     if (friendRequests.some((e) => e.senderId === profileId)) {
@@ -97,7 +143,7 @@ const Banner = ({
           <Button
             className="shadow-none"
             variant="info"
-            onClick={() => acceptRequest(accepterData)}
+            onClick={handleAcceptClick}
           >
             Accept Request
           </Button>
@@ -229,5 +275,5 @@ export default connect(
       lastName: state.profile.lastName,
     };
   },
-  { sendFriendReq, cancelFriendReq, acceptRequest }
+  { sendFriendReq, cancelFriendReq, acceptRequest, deleteFriend }
 )(Banner);
