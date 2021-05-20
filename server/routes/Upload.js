@@ -48,8 +48,8 @@ uploadRouter.post(
 );
 
 uploadRouter.get("/fetch/posts", async (req, res) => {
-  const { ID } = req.query;
   try {
+    const { ID } = req.query;
     await User.findById(ID, (error, result) => {
       if (error) console.log(error);
       res.send(result);
@@ -63,8 +63,8 @@ uploadRouter.get("/fetch/posts", async (req, res) => {
 });
 
 uploadRouter.delete("/delete", async (req, res) => {
-  const { postId, postImg } = req.body;
   try {
+    const { postId, postImg } = req.body;
     User.findOneAndUpdate(
       { "posts.id": postId },
       { $pull: { posts: { id: postId }, photos: postImg } },
@@ -81,29 +81,21 @@ uploadRouter.delete("/delete", async (req, res) => {
   }
 });
 
-//TESTING WITH MONGOOSE
-// uploadRouter.put("/text", async (req, res) => {
-//   const { email, post } = req.body;
-//   try {
-//     await User.findOneAndUpdate({ email }, { $push: { posts: post } });
-//     res.status(201).json({ msgbody: "Submitted", msgError: false });
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(500)
-//       .json({ message: { msgbody: "Error, Check Console", msgError: true } });
-//   }
-//ALTERNATE
-// User.findOneAndUpdate({ email }, { $push: { posts: post } }, (error) => {
-//   if (error) {
-//     console.log(error);
-//     res
-//       .status(500)
-//       .json({ message: { msgbody: "Error has occured", msgError: true } });
-//   } else {
-//     res.status(201).json({ msgbody: "Submitted", msgError: false });
-//   }
-// });
-// });
+uploadRouter.put("/edit", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const body = req.body;
+    User.findOneAndUpdate({ "posts.id": id }, { posts: body }, (error, doc) => {
+      if (error) console.log(error);
+      res.status(201);
+      console.log(doc);
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: { msgbody: "Error, Check Console", msgError: true } });
+  }
+});
 
 module.exports = uploadRouter;

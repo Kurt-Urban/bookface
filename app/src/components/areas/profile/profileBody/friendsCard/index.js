@@ -42,8 +42,11 @@ const FriendsCard = ({ friends }) => {
                         </div>
                         <h6
                           style={{ fontSize: ".7rem" }}
-                          className="d-sm-none d-lg-flex font-weight-bold text-dark mt-1"
+                          className="d-none d-lg-flex font-weight-bold text-dark mt-1"
                         >
+                          Add Friends!
+                        </h6>
+                        <h6 className="d-sm-flex d-lg-none font-weight-bold text-dark mt-1">
                           Add Friends!
                         </h6>
                       </Col>
@@ -63,8 +66,11 @@ const FriendsCard = ({ friends }) => {
                       </div>
                       <h6
                         style={{ fontSize: ".7rem" }}
-                        className="d-sm-none d-lg-flex font-weight-bold text-dark mt-1"
+                        className="d-none d-lg-flex font-weight-bold text-dark mt-1"
                       >{`${profileFriends[n].firstName} ${profileFriends[n].lastName}`}</h6>
+                      <h6 className="d-sm-flex d-lg-none font-weight-bold text-dark mt-1">
+                        {`${profileFriends[n].firstName} ${profileFriends[n].lastName}`}
+                      </h6>
                     </Col>
                   );
                 })}
